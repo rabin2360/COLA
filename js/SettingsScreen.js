@@ -11,21 +11,20 @@ var Settings = (function()
 		totalObservation = 15;
 	}
 	
-	function getFrequency()
+	Settings.prototype.getFrequency = function()
 	{
 		getSelectedValue("frequency");
+		return frequency;
 	}
 	
-	function getTotalObservationTime()
+	Settings.prototype.getTotalObservationTime = function()
 	{
 		getSelectedValue("totalTime");
+		return totalObservation;
 	}
 	
 	Settings.prototype.show = function()
-	{
-	 getFrequency();
-	 getTotalObservationTime();
-		
+	{	
 		console.log("Selected frequency is :"+frequency);
 		console.log("Selected total time is :"+totalObservation);
 		
@@ -53,8 +52,13 @@ var Settings = (function()
 	Settings.prototype.reset = function()
 	{
 		totalObservation = 15;
-		frequency = 15;
-		document.getElementById("frequency").value = frequency;
+		if(document.getElementById("frequency").disabled == false)
+		{
+			frequency = 15;
+			document.getElementById("frequency").value = frequency;
+		}
+
+		
 		document.getElementById("totalTime").value = totalObservation;
 	}
 	
@@ -69,8 +73,8 @@ var Settings = (function()
 	Settings.prototype.save = function()
 	{
 		//save the info to frequency and totalObservation
-		getFrequency();
-		getTotalObservationTime();
+		this.getFrequency();
+		this.getTotalObservationTime();
 		
 		frequency = tempFrequency;
 		totalObservation = tempTotal;

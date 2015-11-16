@@ -24,6 +24,9 @@
 		<title>COLA - Child Observation</title>
     </head>
     <body>
+	<div class = "testWrapper">
+		<p id ="startTime">Start time: <script>observationTimer.getObservationStartTime()</script></p>
+	</div> 
 	
 		<div class = "settingsContainer">
 		<button type ="button" class ="settingsButton" id = "settingsButton" data-toggle = "modal" data-target ="#settingsScreen" data-backdrop = "static" data-keyboard = "false"><i class="fa fa-cog fa-fw"></i></button>
@@ -38,21 +41,26 @@
 						</div>
 						
 						<div class = "modal-body">
-						<p>Please select the total observation duration: </p>
-							 <select name= "totalTime" id = "totalTime">
-									<option value = 15> 15 minutes </option>
-									<option value = 30> 30 minutes </option>
-									<option value = 45> 45 minutes</option>
-									<option value = 60> 60 minutes</option>
-							 </select> 
 						
-						<p>Please select the frequency of the observation: </p>
-							 <select name= "frequency" id = "frequency">
-									<option value = 15> 15 seconds </option>
-									<option value = 30> 30 seconds </option>
-									<option value = 45> 45 seconds</option>
-									<option value = 60> 60 seconds</option>
-							 </select> 
+						<div class = "modal-body-total">
+							<p>Please select the total observation duration: </p>
+								 <select name= "totalTime" id = "totalTime">
+										<option value = 15> 15 minutes </option>
+										<option value = 30> 30 minutes </option>
+										<option value = 45> 45 minutes</option>
+										<option value = 60> 60 minutes</option>
+								 </select> 
+						</div>
+						
+						<div class = "modal-body-frequency">
+							<p>Please select the frequency of the observation: </p>
+								 <select name= "frequency" id = "frequency">
+										<option value = 15> 15 seconds </option>
+										<option value = 30> 30 seconds </option>
+										<option value = 45> 45 seconds</option>
+										<option value = 60> 60 seconds</option>
+								 </select> 
+						</div>
 						
 						<div class ="settingsScreenButtons" id = "settingsScreenButtons">
 						<p></p>
@@ -86,11 +94,11 @@
 		</div>
 		
 		<div class = "startButton">
-			<input type = "button" value="Start" class = "startButton" onclick ="observationTimer.start()" id = "startButton"/>
+			<input type = "button" value="Start" class = "startButton" onclick ="observationTimer.start(modalSettings.getTotalObservationTime())" id = "startButton"/>
 		</div>
 		
 		<div class = "stopButton">
-			<input type = "button" value="Stop" class = "stopButton" onclick ="observationTimer.stop()"/>
+			<input type = "button" value="Stop" class = "stopButton" onclick ="observationTimer.stop(); modalSettings.reset();"/>
 		</div>
 			
 			<p class="clock" id = "displayClock"> </p>

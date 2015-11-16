@@ -1,25 +1,55 @@
 var Timer = (function()
 {
+	//variables to run the timer
 	var time;
 	var clocktimer;
 	var startTime;
 	var elapsedTime;
 
-	function Timer()
+	//variables keeping track of stop timer usage
+	var numberOfPauses;
+	var observationStartTime;
+	var observationEndTime;
+
+function Timer()
 	{
 		startTime = 0;
 		elapsedTime = 0;
+		observationEndTime = 0;
+		observationStartTime = 0;
+		numberOfPauses = 0;
 	}
 	
-	//get the start time for timer
-	function getStartValue()
+//get the start time for timer
+function getStartValue()
 	{
+		startTime = new Date();
+		
+		//recording the observation start time. Happens only once in the observation screen.
+		setObservationStartTime(startTime);
+
+		startTime = startTime.getTime();
 	
-		return startTime = startTime ? startTime : (new Date()).getTime();
+		return startTime;
 	}
 	
-	//get the current time 
-	function currentTime()
+function setObservationStartTime(recordedStartTime)
+	{
+		if(!observationStartTime)
+		{
+			observationStartTime = recordedStartTime;
+			console.log("START TIME: "+observationStartTime);
+		}
+	}
+
+Timer.prototype.getObservationStartTime = function()
+{
+		document.getElementById("startTime").innerHTML = observationStartTime;
+		return observationStartTime;
+}
+
+//get the current time 
+function currentTime()
 	{
 		return elapsedTime + (startTime ? (new Date()).getTime() - startTime: 0);
 		
@@ -37,47 +67,102 @@ function update()
 
 	}
 	
-Timer.prototype.start = function()
+Timer.prototype.start = function(limit)
 	{
-			console.log("color: "+document.getElementById("startButton").style.background);
-			
+		//this code needs to be changed at some point
+		var temp = limit *1000;
+		console.log("limit: "+ temp);
+		
 			if(document.getElementById("startButton").value == "Start")
 			{
-				console.log("Start button pressed");
 				getStartValue();
+				
 				clocktimer = setInterval(function()
 				{
-						if(startTime !=0)
+						if(startTime !=0 && currentTime()<temp)
 						{
 				
 							document.getElementById("timer").innerHTML = formatTime(currentTime());
 							console.log("elapsedTime "+formatTime(currentTime()));
-					}
+						}
+						else
+						{
+							testing();
+							this.stop();
+						}
+						
 				}
 				, 0.9);
+				
 				document.getElementById("startButton").value = "Pause";
-				document.getElementById("startButton").style.background = '#D5D5B2';
+				document.getElementById("startButton").style.background = '#FFFF00';
+				document.getElementById("settingsButton").disabled = true;
+				document.querySelector(".settingsButton").style.opacity = 0.6;
+				
+				console.log("Start button pressed");
+				
 			}
 			else
-			{
-				console.log("Paused button pressed");
+			{	
+				numberOfPauses++;
+				
 				elapsedTime = startTime ? elapsedTime + (new Date()).getTime() - startTime : 0;
 				startTime = 0;
+				
 				clearInterval(clocktimer);
-				document.getElementById("startButton").value = "Start";
-				document.getElementById("startButton").style.background = '#00CC33';
+				
+				changeUI("Start", '#00CC33', true, 0.6, false, 1);
+				console.log("Paused button pressed"+numberOfPauses);
 			}
 	
 	}
+
+function testing()
+{
+			startTime = 0;
+			elapsedTime = 0;
+			numberOfPauses = 0;
+			
+			//recording the observation end time. Happens only once in the observation screen.
+			setObservationEndTime();
+			
+			clearInterval(clocktimer);
+			
+			changeUI("Start", "#00CC33", false, 1, false, 1);			
+			console.log("testing function");	
+
+}
+
+function setObservationEndTime()
+{
+	if(!observationEndTime)
+	{
+		observationEndTime = new Date();
+		console.log("STOP TIME: "+observationEndTime);
+	}
+}
+
+Timer.prototype.getObservationEndTime = function()
+{
 	
+		return observationEndTime;
+}
+
+
 Timer.prototype.stop = function()
 	{
 			startTime = 0;
 			elapsedTime = 0;
+			numberOfPauses = 0;
+			
+			//recording the observation end time. Happens only once in the observation screen.
+			setObservationEndTime();
+			
 			clearInterval(clocktimer);
+			
 			document.getElementById("timer").innerHTML = "00:00:00";
-			document.getElementById("startButton").value = "Start";
-			document.getElementById("startButton").style.background = '#00CC33';
+			
+			changeUI("Start", "#00CC33", false, 1, false, 1);
 			console.log("stopping timer");
 	}
 
@@ -107,5 +192,18 @@ function formatTime(time)
 
 	return Timer;
 }());
+
+function changeUI(buttonText, buttonColor, frequencyEnabled, frequencyOpacity, settingsEnabled, settingsOpacity)
+{
+			document.getElementById("startButton").value = buttonText;
+			document.getElementById("startButton").style.background = buttonColor;
+			
+			document.getElementById("frequency").disabled = frequencyEnabled;
+			document.querySelector(".modal-body-frequency").style.opacity = frequencyOpacity;
+			
+			document.getElementById("settingsButton").disabled = settingsEnabled;
+			document.querySelector(".settingsButton").style.opacity = settingsOpacity;
+	
+}
 
 var observationTimer = new Timer();
