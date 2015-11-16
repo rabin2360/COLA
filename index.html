@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <!-- <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript" src="js/test.js"></script>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		
+		<!-- <script type="text/javascript" src="js/clock.js"></script> -->
+		<script type="text/javascript" src="js/timer.js"></script>
+		<script type="text/javascript" src="js/SettingsScreen.js"></script>
+		
+		<!-- for the icons -->
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+        
+		<title>COLA - Child Observation</title>
+    </head>
+    <body>
+	
+		<div class = "settingsContainer">
+		<button type ="button" class ="settingsButton" id = "settingsButton" data-toggle = "modal" data-target ="#settingsScreen" data-backdrop = "static" data-keyboard = "false"><i class="fa fa-cog fa-fw"></i></button>
+		
+			<div class="modal fade bs-example-modal-sm" id="settingsScreen" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+					
+						<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" onclick = "rabin.cancel()">&times;</button>
+						<h4 class="modal-title">Settings</h4>
+						</div>
+						
+						<div class = "modal-body">
+						<p>Please select the total observation duration: </p>
+							 <select name= "totalTime" id = "totalTime">
+									<option value = 15> 15 minutes </option>
+									<option value = 30> 30 minutes </option>
+									<option value = 45> 45 minutes</option>
+									<option value = 60> 60 minutes</option>
+							 </select> 
+						
+						<p>Please select the frequency of the observation: </p>
+							 <select name= "frequency" id = "frequency">
+									<option value = 15> 15 seconds </option>
+									<option value = 30> 30 seconds </option>
+									<option value = 45> 45 seconds</option>
+									<option value = 60> 60 seconds</option>
+							 </select> 
+						
+						<div class ="settingsScreenButtons" id = "settingsScreenButtons">
+						<p></p>
+						<button type = "button" class ="saveSettings" id ="saveSettings" onclick = "rabin.save()" data-dismiss="modal">Save</button>
+						<button type = "button" class ="cancleSettings" id ="cancelSettings" onclick = "rabin.cancel()" data-dismiss="modal">Cancel</button>
+						<button type = "button" class ="resetSettings" id ="resetSettings" onclick = "rabin.reset()" data-dismiss="modal">Default Values</button>
+						</div>
+						
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		
+        <div class="app">
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+
+			<!-- timer display element -->
+			<p class="timerDisplay" id ="timer"> 00:00:00</p>
+			
+			<div class = "startButton">
+			<input type = "button" value="Start" class = "startButton" onclick ="observationTimer.start()" id = "startButton"/>
+			</div>
+		
+			<div class = "stopButton">
+			<input type = "button" value="Stop" class = "stopButton" onclick ="observationTimer.stop()"/>
+			</div>
+			
+			<p class="clock" id = "displayClock"> </p>
+			<p class = "testText" id = "rabin">	</p>
+			<div class = "testButton">
+			<input type = "button" value="testbutton" class = "testButton" onclick ="rabin.show();"/>
+			</div>
+			
+		</div>
+		
+        <!-- <script type="text/javascript" src="cordova.js"></script> -->
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>
