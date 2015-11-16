@@ -83,4 +83,4 @@ var Settings = (function()
 	return Settings;
 }());
 
-var rabin = new Settings();
+var modalSettings = new Settings();
