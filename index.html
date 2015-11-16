@@ -93,25 +93,30 @@
                 <p class="event listening">Connecting to Device</p>
                 <p class="event received">Device is Ready</p>
             </div>
-
-			<!-- timer display element -->
-			<p class="timerDisplay" id ="timer"> 00:00:00</p>
 			
-			<div class = "startButton">
-			<input type = "button" value="Start" class = "startButton" onclick ="observationTimer.start()" id = "startButton"/>
-			</div>
-		
-			<div class = "stopButton">
-			<input type = "button" value="Stop" class = "stopButton" onclick ="observationTimer.stop()"/>
-			</div>
-			
-			<p class="clock" id = "displayClock"> </p>
-			<p class = "testText" id = "rabin">	</p>
 			<div class = "testButton">
 			<input type = "button" value="testbutton" class = "testButton" onclick ="modalSettings.show();"/>
+			<p class = "testText" id = "rabin">	</p>
 			</div>
 			
 		</div>
+		
+		<div class = "timerDisplay">
+			<p id ="timer"> 00:00:00</p>
+		</div>
+		
+		<div class = "startButton">
+			<input type = "button" value="Start" class = "startButton" onclick ="observationTimer.start()" id = "startButton"/>
+		</div>
+		
+		<div class = "stopButton">
+			<input type = "button" value="Stop" class = "stopButton" onclick ="observationTimer.stop()"/>
+		</div>
+			
+			<p class="clock" id = "displayClock"> </p>
+			
+			
+		
 		
         <!-- <script type="text/javascript" src="cordova.js"></script> -->
         <script type="text/javascript">
