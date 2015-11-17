@@ -6,7 +6,7 @@ var Timer = (function()
 	var startTime;
 	var elapsedTime;
 
-	//variables keeping track of stop timer usage
+	//variables keeping track of stop watch usage
 	var numberOfPauses;
 	var observationStartTime;
 	var observationEndTime;
@@ -32,6 +32,13 @@ function getStartValue()
 	
 		return startTime;
 	}
+
+//get the current time 
+function currentTime()
+	{
+		return elapsedTime + (startTime ? (new Date()).getTime() - startTime: 0);
+		
+	}
 	
 function setObservationStartTime(recordedStartTime)
 	{
@@ -47,13 +54,6 @@ Timer.prototype.getObservationStartTime = function()
 		document.getElementById("startTime").innerHTML = observationStartTime;
 		return observationStartTime;
 }
-
-//get the current time 
-function currentTime()
-	{
-		return elapsedTime + (startTime ? (new Date()).getTime() - startTime: 0);
-		
-	}
 	
 function update()
 	{
@@ -73,6 +73,7 @@ Timer.prototype.start = function(limit)
 		var temp = limit *1000;
 		console.log("limit: "+ temp);
 		
+			//toggle between start and pause
 			if(document.getElementById("startButton").value == "Start")
 			{
 				getStartValue();
@@ -87,8 +88,7 @@ Timer.prototype.start = function(limit)
 						}
 						else
 						{
-							testing();
-							this.stop();
+							observationTimer.stop();
 						}
 						
 				}
@@ -104,33 +104,23 @@ Timer.prototype.start = function(limit)
 			}
 			else
 			{	
-				numberOfPauses++;
-				
-				elapsedTime = startTime ? elapsedTime + (new Date()).getTime() - startTime : 0;
-				startTime = 0;
-				
-				clearInterval(clocktimer);
-				
-				changeUI("Start", '#00CC33', true, 0.6, false, 1);
-				console.log("Paused button pressed"+numberOfPauses);
+				pause();
 			}
 	
 	}
 
-function testing()
-{
-			startTime = 0;
-			elapsedTime = 0;
-			numberOfPauses = 0;
-			
-			//recording the observation end time. Happens only once in the observation screen.
-			setObservationEndTime();
-			
-			clearInterval(clocktimer);
-			
-			changeUI("Start", "#00CC33", false, 1, false, 1);			
-			console.log("testing function");	
 
+function pause()
+{			
+	numberOfPauses++;
+				
+	elapsedTime = startTime ? elapsedTime + (new Date()).getTime() - startTime : 0;
+	startTime = 0;
+				
+	clearInterval(clocktimer);
+				
+	changeUI("Start", '#00CC33', true, 0.6, false, 1);
+	console.log("Paused button pressed"+numberOfPauses);
 }
 
 function setObservationEndTime()
@@ -144,8 +134,8 @@ function setObservationEndTime()
 
 Timer.prototype.getObservationEndTime = function()
 {
-	
-		return observationEndTime;
+	document.getElementById("endTime").innerHTML = observationEndTime;
+	return observationEndTime;
 }
 
 
@@ -190,8 +180,6 @@ function formatTime(time)
 		<!-- return time; -->
 }
 
-	return Timer;
-}());
 
 function changeUI(buttonText, buttonColor, frequencyEnabled, frequencyOpacity, settingsEnabled, settingsOpacity)
 {
@@ -205,5 +193,8 @@ function changeUI(buttonText, buttonColor, frequencyEnabled, frequencyOpacity, s
 			document.querySelector(".settingsButton").style.opacity = settingsOpacity;
 	
 }
+
+	return Timer;
+}());
 
 var observationTimer = new Timer();

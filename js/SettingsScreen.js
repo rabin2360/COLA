@@ -1,35 +1,34 @@
 var Settings = (function()
 {
+	//settings screen variables
 	var frequency ;
-	var tempFrequency;
 	var totalObservation;
-	var tempTotal;
+	
+	//default values
+	const DEFAULT_FREQUENCY = 15;
+	const DEFAULT_TOTAL_TIME = 15;
 	
 	function Settings()
 	{
-		frequency = 15;
-		totalObservation = 15;
+		frequency = DEFAULT_FREQUENCY;
+		totalObservation = DEFAULT_TOTAL_TIME;
 	}
 	
 	Settings.prototype.getFrequency = function()
 	{
-		getSelectedValue("frequency");
 		return frequency;
 	}
 	
 	Settings.prototype.getTotalObservationTime = function()
 	{
-		getSelectedValue("totalTime");
 		return totalObservation;
 	}
 	
+	//using this method for debugging purposes
 	Settings.prototype.show = function()
 	{	
 		console.log("Selected frequency is :"+frequency);
 		console.log("Selected total time is :"+totalObservation);
-		
-		document.getElementById("rabin").innerHTML = "The frequency is: "+frequency+", the total time is: "+totalObservation;
-		
 	}
 	
 	function getSelectedValue(elementId)
@@ -39,14 +38,7 @@ var Settings = (function()
 		temp = document.getElementById(elementId);
 		selectedValue = temp.options[temp.selectedIndex].value;
 		
-		if(elementId =="frequency")
-		{
-			tempFrequency = selectedValue;
-		}
-		else
-		{
-			tempTotal = selectedValue;
-		}
+		return selectedValue;
 	}
 	
 	Settings.prototype.reset = function()
@@ -64,20 +56,14 @@ var Settings = (function()
 	
 	Settings.prototype.cancel = function()
 	{
-		//restore the values of save and total Observation
-		//do this by not changing the values
 		document.getElementById("frequency").value = frequency;
 		document.getElementById("totalTime").value = totalObservation;
 	}
 	
 	Settings.prototype.save = function()
-	{
-		//save the info to frequency and totalObservation
-		this.getFrequency();
-		this.getTotalObservationTime();
-		
-		frequency = tempFrequency;
-		totalObservation = tempTotal;
+	{	
+		frequency = getSelectedValue("frequency");
+		totalObservation = getSelectedValue("totalTime");
 		
 		document.getElementById("frequency").value = frequency;
 		document.getElementById("totalTime").value = totalObservation;
