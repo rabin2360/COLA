@@ -17,15 +17,15 @@
 		<!-- <script type="text/javascript" src="js/clock.js"></script> -->
 		<script type="text/javascript" src="js/timer.js"></script>
 		<script type="text/javascript" src="js/SettingsScreen.js"></script>
+		<script type="text/javascript" src="js/SystemTime.js"></script>
 		
 		<!-- for the icons -->
 		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
         
-		<title>COLA - Child Observation</title>
+		<title>COLA - Comparative Observation for Learning or Attention</title>
     </head>
     <body>
 	<div class = "testWrapper">
-		<p id ="startTime">Start time: <script>observationTimer.getObservationStartTime()</script></p>
 	</div> 
 	
 		<div class = "settingsContainer">
@@ -83,8 +83,10 @@
             </div>
 			
 			<div class = "testButton">
-			<input type = "button" value="testbutton" class = "testButton" onclick ="modalSettings.show();"/>
-			<p class = "testText" id = "rabin">	</p>
+			<input type = "button" value="testbutton" id = "testButton" class = "testButton" onclick ="modalSettings.show(); observationTimer.getObservationStartTime(); observationTimer.getObservationEndTime(); "/>
+			<!-- <p class = "testText" id = "rabin">	</p> -->
+			Start time:<p id ="startTime"></p>
+			End time: <p id ="endTime"></p>
 			</div>
 			
 		</div>
@@ -94,11 +96,11 @@
 		</div>
 		
 		<div class = "startButton">
-			<input type = "button" value="Start" class = "startButton" onclick ="observationTimer.start(modalSettings.getTotalObservationTime())" id = "startButton"/>
+			<input type = "button" value="Start" class = "startButton" onclick ="observationTimer.start(modalSettings.getTotalObservationTime());" id = "startButton"/>
 		</div>
 		
 		<div class = "stopButton">
-			<input type = "button" value="Stop" class = "stopButton" onclick ="observationTimer.stop(); modalSettings.reset();"/>
+			<input type = "button" value="Stop" class = "stopButton" onclick ="observationTimer.stop(); modalSettings.reset();" id ="stopButton"/>
 		</div>
 			
 			<p class="clock" id = "displayClock"> </p>
@@ -109,6 +111,9 @@
         <!-- <script type="text/javascript" src="cordova.js"></script> -->
         <script type="text/javascript">
             app.initialize();
+			observationTimer.initialize();
+			modalSettings.initialize();
+			systemClock.initialize();
         </script>
     </body>
 </html>

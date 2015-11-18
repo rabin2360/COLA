@@ -7,8 +7,8 @@ var Timer = (function() {
 
     //variables keeping track of stop watch usage
     var numberOfPauses;
-    var observationStartTime;
-    var observationEndTime;
+	
+	var testListener;
 
     function Timer() {
         startTime = 0;
@@ -16,16 +16,25 @@ var Timer = (function() {
         observationEndTime = 0;
         observationStartTime = 0;
         numberOfPauses = 0;
+		pausedTimeStamps = [];
+
     }
 
+	Timer.prototype.initialize = function()
+	{
+		testListener = document.getElementById("testButton").addEventListener("click", test);
+		console.log("testListener:"+testListener);
+	}
+
+	function test()
+	{
+		console.log("EVENT LISTENER SON!");
+	}
+	
     //get the start time for timer
     function getStartValue() {
         startTime = new Date();
-
-        //recording the observation start time. Happens only once in the observation screen.
-        setObservationStartTime(startTime);
-
-        startTime = startTime.getTime();
+		startTime = startTime.getTime();
 
         return startTime;
     }
@@ -35,19 +44,7 @@ var Timer = (function() {
         return elapsedTime + (startTime ? (new Date()).getTime() - startTime : 0);
 
     }
-
-    function setObservationStartTime(recordedStartTime) {
-        if (!observationStartTime) {
-            observationStartTime = recordedStartTime;
-            console.log("START TIME: " + observationStartTime);
-        }
-    }
-
-    Timer.prototype.getObservationStartTime = function() {
-        document.getElementById("startTime").innerHTML = observationStartTime;
-        return observationStartTime;
-    }
-
+	
     function update() {
         //when startTime is not zero meaning that start has been pressed once in a row
         if (startTime != 0) {
@@ -66,10 +63,10 @@ var Timer = (function() {
         //toggle between start and pause
         if (document.getElementById("startButton").value == "Start") {
             getStartValue();
-
+			
             clocktimer = setInterval(function() {
                 if (startTime != 0 && currentTime() < temp) {
-
+					
                     document.getElementById("timer").innerHTML = formatTime(currentTime());
                     console.log("elapsedTime " + formatTime(currentTime()));
                 } else {
@@ -78,19 +75,48 @@ var Timer = (function() {
 
             }, 0.9);
 
-            document.getElementById("startButton").value = "Pause";
-            document.getElementById("startButton").style.background = '#FFFF00';
-            document.getElementById("settingsButton").disabled = true;
-            document.querySelector(".settingsButton").style.opacity = 0.6;
-
+			changeStartButtonUI("Pause", "#FFFF00");
             console.log("Start button pressed");
 
         } else {
             pause();
+			disableDropDownMenuItems(elapsedTime);
         }
 
     }
 
+	//this should be in the settings screen
+	function disableDropDownMenuItems(latestTime)
+	{
+		var temp = document.getElementById("totalTime");
+		
+		for(var i = 0; i<temp.options.length; i++)
+		{
+			if((latestTime > ((temp.options[i].value)*1000)))
+			{
+				temp.options[i].disabled = true
+				console.log("holla!");
+		
+			}
+			else
+			{
+				console.log("latest time: "+latestTime+" element in drop down menu: "+(temp.options[i].value)*1000);
+				break;
+			}
+		}
+	}
+
+	//this should be in the settings screen
+	function enableDropDownMenuItems()
+	{
+		var temp = document.getElementById("totalTime");
+		
+		for(var i = 0; i<temp.options.length; i++)
+		{
+			temp.options[i].disabled = false;
+		}
+		
+	}
 
     function pause() {
         numberOfPauses++;
@@ -100,20 +126,8 @@ var Timer = (function() {
 
         clearInterval(clocktimer);
 
-        changeUI("Start", '#00CC33', true, 0.6, false, 1);
+        changeStartButtonUI("Start", '#00CC33');
         console.log("Paused button pressed" + numberOfPauses);
-    }
-
-    function setObservationEndTime() {
-        if (!observationEndTime) {
-            observationEndTime = new Date();
-            console.log("STOP TIME: " + observationEndTime);
-        }
-    }
-
-    Timer.prototype.getObservationEndTime = function() {
-        document.getElementById("endTime").innerHTML = observationEndTime;
-        return observationEndTime;
     }
 
 
@@ -122,14 +136,12 @@ var Timer = (function() {
         elapsedTime = 0;
         numberOfPauses = 0;
 
-        //recording the observation end time. Happens only once in the observation screen.
-        setObservationEndTime();
-
         clearInterval(clocktimer);
 
         document.getElementById("timer").innerHTML = "00:00:00";
 
-        changeUI("Start", "#00CC33", false, 1, false, 1);
+        changeStartButtonUI("Start", "#00CC33");
+		enableDropDownMenuItems();
         console.log("stopping timer");
     }
 
@@ -152,21 +164,13 @@ var Timer = (function() {
 
         newTime = pad(h, 2) + ':' + pad(m, 2) + ':' + pad(s, 2);
         return newTime;
-        <!-- return time; -->
     }
 
 
-    function changeUI(buttonText, buttonColor, frequencyEnabled, frequencyOpacity, settingsEnabled, settingsOpacity) {
+    function changeStartButtonUI(buttonText, buttonColor) {
         document.getElementById("startButton").value = buttonText;
         document.getElementById("startButton").style.background = buttonColor;
-
-        document.getElementById("frequency").disabled = frequencyEnabled;
-        document.querySelector(".modal-body-frequency").style.opacity = frequencyOpacity;
-
-        document.getElementById("settingsButton").disabled = settingsEnabled;
-        document.querySelector(".settingsButton").style.opacity = settingsOpacity;
-
-    }
+}
 
     return Timer;
 }());
