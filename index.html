@@ -1,119 +1,129 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <!-- <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-		<script type="text/javascript" src="js/index.js"></script>
-		<script type="text/javascript" src="js/test.js"></script>
-		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		
-		<!-- <script type="text/javascript" src="js/clock.js"></script> -->
-		<script type="text/javascript" src="js/timer.js"></script>
-		<script type="text/javascript" src="js/SettingsScreen.js"></script>
-		<script type="text/javascript" src="js/SystemTime.js"></script>
-		
-		<!-- for the icons -->
-		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-        
-		<title>COLA - Comparative Observation for Learning or Attention</title>
-    </head>
-    <body>
-	<div class = "testWrapper">
-	</div> 
-	
-		<div class = "settingsContainer">
-		<button type ="button" class ="settingsButton" id = "settingsButton" data-toggle = "modal" data-target ="#settingsScreen" data-backdrop = "static" data-keyboard = "false"><i class="fa fa-cog fa-fw"></i></button>
-		
-			<div class="modal fade bs-example-modal-sm" id="settingsScreen" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-					
-						<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" onclick = "modalSettings.cancel()">&times;</button>
-						<h4 class="modal-title">Settings</h4>
-						</div>
-						
-						<div class = "modal-body">
-						
-						<div class = "modal-body-total">
-							<p>Please select the total observation duration: </p>
-								 <select name= "totalTime" id = "totalTime">
-										<option value = 15> 15 minutes </option>
-										<option value = 30> 30 minutes </option>
-										<option value = 45> 45 minutes</option>
-										<option value = 60> 60 minutes</option>
-								 </select> 
-						</div>
-						
-						<div class = "modal-body-frequency">
-							<p>Please select the frequency of the observation: </p>
-								 <select name= "frequency" id = "frequency">
-										<option value = 15> 15 seconds </option>
-										<option value = 30> 30 seconds </option>
-										<option value = 45> 45 seconds</option>
-										<option value = 60> 60 seconds</option>
-								 </select> 
-						</div>
-						
-						<div class ="settingsScreenButtons" id = "settingsScreenButtons">
-						<p></p>
-						<button type = "button" class ="saveSettings" id ="saveSettings" onclick = "modalSettings.save()" data-dismiss="modal">Save</button>
-						<button type = "button" class ="cancleSettings" id ="cancelSettings" onclick = "modalSettings.cancel()" data-dismiss="modal">Cancel</button>
-						<button type = "button" class ="resetSettings" id ="resetSettings" onclick = "modalSettings.reset()" data-dismiss="modal">Default Values</button>
-						</div>
-						
-						</div>
-						
-					</div>
-				</div>
-			</div>
-		</div>
-		
-        <div class="app">
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <!-- <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <script type="text/javascript" src="js/index.js"></script>
+    <!-- <script type="text/javascript" src="js/test.js"></script> -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- <script type="text/javascript" src="js/clock.js"></script> -->
+    <script type="text/javascript" src="js/timer.js"></script>
+    <script type="text/javascript" src="js/SettingsScreen.js"></script>
+    <script type="text/javascript" src="js/SystemTime.js"></script>
+    <script type="text/javascript" src="js/ObservationController.js"></script>
+
+    <!-- for the icons -->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <title>COLA - Comparative Observation for Learning or Attention</title>
+</head>
+
+<body onload="modalSettings.getStages(); observationScreen.getCurrentStage();">
+    <div class="settingsInfo">
+        <div id="testId">
+            Stage: <span id="settingsInfoNumer"></span>/<span id="settingsInfoDeno"></span>
+        </div>
+    </div>
+
+    <div class="settingsContainer">
+        <button type="button" class="settingsButton" id="settingsButton" data-toggle="modal" data-target="#settingsScreen" data-backdrop="static" data-keyboard="false"><i class="fa fa-cog fa-fw"></i></button>
+
+        <div class="modal fade bs-example-modal-sm" id="settingsScreen" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" onclick="modalSettings.cancel()">&times;</button>
+                        <h4 class="modal-title">Settings</h4>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="modal-body-total">
+                            <p>Please select the total observation duration: </p>
+                            <select name="totalTime" id="totalTime">
+                                <option value=1 5> 15 minutes </option>
+                                <option value=3 0> 30 minutes </option>
+                                <option value=4 5> 45 minutes</option>
+                                <option value=6 0> 60 minutes</option>
+                            </select>
+                        </div>
+
+                        <div class="modal-body-frequency">
+                            <p>Please select the frequency of the observation: </p>
+                            <select name="frequency" id="frequency">
+                                <option value=1 5> 15 seconds </option>
+                                <option value=3 0> 30 seconds </option>
+                                <option value=4 5> 45 seconds</option>
+                                <option value=6 0> 60 seconds</option>
+                            </select>
+                        </div>
+
+                        <div class="settingsScreenButtons" id="settingsScreenButtons">
+                            <p></p>
+                            <button type="button" class="saveSettings" id="saveSettings" onclick="modalSettings.save()" data-dismiss="modal">Save</button>
+                            <button type="button" class="cancleSettings" id="cancelSettings" onclick="modalSettings.cancel()" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="resetSettings" id="resetSettings" onclick="modalSettings.reset()" data-dismiss="modal">Default Values</button>
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
-			
-			<div class = "testButton">
-			<input type = "button" value="testbutton" id = "testButton" class = "testButton" onclick ="modalSettings.show(); observationTimer.getObservationStartTime(); observationTimer.getObservationEndTime(); "/>
-			<!-- <p class = "testText" id = "rabin">	</p> -->
-			Start time:<p id ="startTime"></p>
-			End time: <p id ="endTime"></p>
-			</div>
-			
-		</div>
-		
-		<div class = "timerDisplay">
-			<p id ="timer"> 00:00:00</p>
-		</div>
-		
-		<div class = "startButton">
-			<input type = "button" value="Start" class = "startButton" onclick ="observationTimer.start(modalSettings.getTotalObservationTime());" id = "startButton"/>
-		</div>
-		
-		<div class = "stopButton">
-			<input type = "button" value="Stop" class = "stopButton" onclick ="observationTimer.stop(); modalSettings.reset();" id ="stopButton"/>
-		</div>
-			
-			<p class="clock" id = "displayClock"> </p>
-			
-			
-		
-		
-        <!-- <script type="text/javascript" src="cordova.js"></script> -->
-        <script type="text/javascript">
-            app.initialize();
-			observationTimer.initialize();
-			modalSettings.initialize();
-			systemClock.initialize();
-        </script>
-    </body>
+        </div>
+    </div>
+
+    <div class="app">
+        <div id="deviceready" class="blink">
+            <p class="event listening">Connecting to Device</p>
+            <p class="event received">Device is Ready</p>
+        </div>
+
+        <div class="testButton">
+            <input type="button" value="testbutton" id="testButton" class="testButton" onclick="modalSettings.show();" />
+            <!-- <p class = "testText" id = "rabin">	</p> -->
+            Start time:
+            <p id="startTime"></p>
+            End time:
+            <p id="endTime"></p>
+        </div>
+
+    </div>
+
+    <div class="timerDisplay">
+        <p id="timer"> 00:00:00</p>
+    </div>
+
+    <div class="startButton">
+        <input type="button" value="Start" class="startButton" onclick="observationTimer.start(modalSettings.getTotalObservationTime(), modalSettings.getFrequency());" id="startButton" />
+    </div>
+
+    <div class="stopButton">
+        <input type="button" value="Stop" class="stopButton" onclick="modalSettings.reset();" id="stopButton" />
+    </div>
+
+    <p class="clock" id="displayClock"> </p>
+
+
+
+
+    <!-- <script type="text/javascript" src="cordova.js"></script> -->
+    <script type="text/javascript">
+        app.initialize();
+        observationTimer.initialize();
+        modalSettings.initialize();
+        systemClock.initialize();
+        observationScreen.initialize();
+    </script>
+</body>
+
 </html>

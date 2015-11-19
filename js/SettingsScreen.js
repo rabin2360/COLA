@@ -2,14 +2,18 @@ var Settings = (function() {
     //settings screen variables
     var frequency;
     var totalObservation;
+	var latestTime;
+	
 	var startButtonElementId;
 	var stopButtonElementId;
 	var settingsButtonElementId;
+	var saveSettingsButtonElementId;
 	
     //default values
     const DEFAULT_FREQUENCY = 15;
     const DEFAULT_TOTAL_TIME = 15;
-
+	const SECONDS = 60;
+	
     function Settings() {
         frequency = DEFAULT_FREQUENCY;
         totalObservation = DEFAULT_TOTAL_TIME;
@@ -17,15 +21,29 @@ var Settings = (function() {
 	
 	Settings.prototype.initialize = function()
 	{
-		//listeners
+		//listener -start button
 		startButtonElementId = document.getElementById("startButton");
-		testListener = startButtonElementId.addEventListener("click", startPauseSettingsDisplay);
+		startButtonElementId.addEventListener("click", startPauseSettingsDisplay);
 		
-		//listeners
+		//listener - stop button
 		stopButtonElementId = document.getElementById("stopButton");
-		another = stopButtonElementId.addEventListener("click", stopSettingsDisplay);
+		stopButtonElementId.addEventListener("click", stopSettingsDisplay);
 		
-		console.log("testListener:"+testListener);
+		//listener - save button
+		saveSettingsButtonElementId = document.getElementById("saveSettings");
+		saveSettingsButtonElementId.addEventListener("click",modalSettings.getStages);
+		
+		//listener - reset button
+		saveSettingsButtonElementId = document.getElementById("resetSettings");
+		saveSettingsButtonElementId.addEventListener("click",modalSettings.getStages);
+		
+	}
+	
+	Settings.prototype.getStages = function()
+	{
+		var stages = (totalObservation* SECONDS)/frequency;
+		document.getElementById("settingsInfoDeno").innerHTML = stages;
+		return stages;
 	}
 	
     Settings.prototype.getFrequency = function() {
@@ -51,14 +69,18 @@ var Settings = (function() {
     }
 
     Settings.prototype.reset = function() {
-        totalObservation = 15;
+
         if (document.getElementById("frequency").disabled == false) {
             frequency = 15;
             document.getElementById("frequency").value = frequency;
         }
+		
+		if (document.getElementById("totalTime").options[0].disabled == false)
+		{
+			totalObservation = 15;
+			document.getElementById("totalTime").value = totalObservation;
+		}
 
-
-        document.getElementById("totalTime").value = totalObservation;
     }
 
     Settings.prototype.cancel = function() {
@@ -104,6 +126,39 @@ var Settings = (function() {
 	{
 		document.getElementById("frequency").disabled = frequencyDisabled;
         document.querySelector(".modal-body-frequency").style.opacity = frequencyOpacity;
+	}
+	
+	//accessed by timer.js
+	Settings.prototype.disableDropDownMenuItems = function(latestTime)
+	{
+		var temp = document.getElementById("totalTime");
+		
+		for(var i = 0; i<temp.options.length; i++)
+		{
+			if((latestTime > ((temp.options[i].value)*1000)))
+			{
+				temp.options[i].disabled = true
+				console.log("holla!");
+		
+			}
+			else
+			{
+				//console.log("latest time: "+latestTime+" element in drop down menu: "+(temp.options[i].value)*1000);
+				break;
+			}
+		}
+	}
+	
+	//accessed by timer.js
+	Settings.prototype.enableDropDownMenuItems = function()
+	{
+		var temp = document.getElementById("totalTime");
+		
+		for(var i = 0; i<temp.options.length; i++)
+		{
+			temp.options[i].disabled = false;
+		}
+		
 	}
 
 
