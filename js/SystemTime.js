@@ -17,16 +17,7 @@ var SystemSettings = (function() {
         pausedTimeStamps = [];
     }
 
-    //explicitly initialize the listeners
-    SystemSettings.prototype.initialize = function() {
-        startButtonElementId = document.getElementById("startButton");
-        startButtonElementId.addEventListener("click", recordObservationStartOrPauseTime);
-
-        stopButtonElementId = document.getElementById("stopButton");
-        stopButtonElementId.addEventListener("click", recordObservationStopTime);
-    }
-
-    function recordObservationStartOrPauseTime() {
+    SystemSettings.prototype.recordObservationStartOrPauseTime = function() {
 
         if (!observationStartTime) {
             observationStartTime = new Date();
@@ -55,7 +46,8 @@ var SystemSettings = (function() {
     }
 
     SystemSettings.prototype.getObservationStopTime = function() {
-        return observationEndTime;
+        recordObservationStopTime();
+		return observationEndTime;
     }
 
     return SystemSettings;

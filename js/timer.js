@@ -6,19 +6,17 @@ var Timer = (function() {
     var elapsedTime;
     var stages;
 
-    //variables keeping track of stop watch usage
-    var numberOfPauses;
+    //variable(s) controlling the stop watch
+    var frequencyLimit;
+
+    const CONVERT_TO_SECONDS = 1000;
 
     function Timer() {
         startTime = 0;
         elapsedTime = 0;
         numberOfPauses = 0;
         stages = 0;
-
-    }
-
-    Timer.prototype.initialize = function() {
-        document.getElementById("stopButton").addEventListener("click", observationTimer.stop);
+        frequencyLimit = 0;
     }
 
     //get the start time for timer
@@ -30,69 +28,49 @@ var Timer = (function() {
     }
 
     //get the current time 
-    function currentTime() {
+    Timer.prototype.getElapsedTime = function() {
         return elapsedTime + (startTime ? (new Date()).getTime() - startTime : 0);
-
-    }
-
-    function update() {
-        //when startTime is not zero meaning that start has been pressed once in a row
-        if (startTime != 0) {
-
-            document.getElementById("timer").innerHTML = formatTime(currentTime());
-            console.log("elapsedTime " + formatTime(currentTime()));
-        }
-
     }
 
     Timer.prototype.start = function(limit, frequency) {
         //this code needs to be changed at some point
-        var temp = limit * 1000;
-        var frequencyLimit = parseInt(frequency);
+        var timerLimit = limit * 1000;
 
-        //toggle between start and pause
-        if (document.getElementById("startButton").value == "Start") {
-            getStartValue();
+        getStartValue();
 
-            clocktimer = setInterval(function() {
-                if (startTime != 0 && currentTime() < temp) {
+        clocktimer = setInterval(function() {
+            if (startTime != 0 && observationTimer.getElapsedTime() < timerLimit) {
+                incrementObservationStage(observationTimer.getElapsedTime(), frequency);
+                document.getElementById("timer").innerHTML = formatTime(observationTimer.getElapsedTime());
+            } else {
+                //I don't like this//
+                document.getElementById("stopButton").click();
+            }
 
-                    if (Math.floor(currentTime() / 1000) == frequencyLimit) {
-                        observationScreen.incrementCurrentStage();
-                        frequencyLimit = parseInt(frequencyLimit) + parseInt(frequency);
-                        console.log("frequency: " + frequencyLimit);
-                    }
+        }, 900);
 
-                    document.getElementById("timer").innerHTML = formatTime(currentTime());
-                    //console.log("elapsedTime " + Math.floor(currentTime()/1000));
-                } else {
-                    //I don't like this//
-                    document.getElementById("stopButton").click();
-                    //observationTimer.stop();
-                }
-
-            }, 900);
-
-            changeStartButtonUI("Pause", "#FFFF00");
-            console.log("Start button pressed");
-
-        } else {
-            pause();
-            modalSettings.disableDropDownMenuItems(elapsedTime);
-        }
+        console.log("Start button pressed");
 
     }
 
-    function pause() {
-        numberOfPauses++;
+    function incrementObservationStage(latestTime, frequency) {
+        frequencyLimit = frequencyLimit ? frequencyLimit : parseInt(frequencyLimit) + parseInt(frequency);
+        //console.log("Frequency Limit: " + frequencyLimit);
 
+        if (Math.floor(latestTime / CONVERT_TO_SECONDS) == frequencyLimit) {
+            observationScreen.incrementCurrentStage();
+            frequencyLimit = parseInt(frequencyLimit) + parseInt(frequency);
+            console.log("Frequency Limit: " + frequencyLimit);
+
+        }
+    }
+
+    Timer.prototype.pause = function() {
         elapsedTime = startTime ? elapsedTime + (new Date()).getTime() - startTime : 0;
         startTime = 0;
 
         clearInterval(clocktimer);
-
-        changeStartButtonUI("Start", '#00CC33');
-        //console.log("Paused button pressed" + numberOfPauses);
+        console.log("Paused button pressed ");
     }
 
 
@@ -102,12 +80,8 @@ var Timer = (function() {
         numberOfPauses = 0;
 
         clearInterval(clocktimer);
-
         document.getElementById("timer").innerHTML = "00:00:00";
-
-        changeStartButtonUI("Start", "#00CC33");
-        modalSettings.enableDropDownMenuItems();
-        console.log("stopping timer");
+        console.log("Stop button pressed");
     }
 
     function pad(num, size) {
@@ -130,13 +104,6 @@ var Timer = (function() {
         newTime = pad(h, 2) + ':' + pad(m, 2) + ':' + pad(s, 2);
         return newTime;
     }
-
-
-    function changeStartButtonUI(buttonText, buttonColor) {
-        document.getElementById("startButton").value = buttonText;
-        document.getElementById("startButton").style.background = buttonColor;
-    }
-
     return Timer;
 }());
 
