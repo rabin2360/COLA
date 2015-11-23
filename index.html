@@ -27,7 +27,7 @@
     <title>COLA - Comparative Observation for Learning or Attention</title>
 </head>
 
-<body onload="modalSettings.getStages(); observationScreen.getCurrentStage();">
+<body onload="">
     <div class="settingsInfo">
         <div id="testId">
             Stage: <span id="settingsInfoNumer"></span>/<span id="settingsInfoDeno"></span>
@@ -51,20 +51,20 @@
                         <div class="modal-body-total">
                             <p>Please select the total observation duration: </p>
                             <select name="totalTime" id="totalTime">
-                                <option value=1 5> 15 minutes </option>
-                                <option value=3 0> 30 minutes </option>
-                                <option value=4 5> 45 minutes</option>
-                                <option value=6 0> 60 minutes</option>
+                                <option value=15> 15 minutes </option>
+                                <option value=30> 30 minutes </option>
+                                <option value=45> 45 minutes</option>
+                                <option value=60> 60 minutes</option>
                             </select>
                         </div>
 
                         <div class="modal-body-frequency">
                             <p>Please select the frequency of the observation: </p>
                             <select name="frequency" id="frequency">
-                                <option value=1 5> 15 seconds </option>
-                                <option value=3 0> 30 seconds </option>
-                                <option value=4 5> 45 seconds</option>
-                                <option value=6 0> 60 seconds</option>
+                                <option value=15> 15 seconds </option>
+                                <option value=30> 30 seconds </option>
+                                <option value=45> 45 seconds</option>
+                                <option value=60> 60 seconds</option>
                             </select>
                         </div>
 
@@ -104,11 +104,11 @@
     </div>
 
     <div class="startButton">
-        <input type="button" value="Start" class="startButton" onclick="observationTimer.start(modalSettings.getTotalObservationTime(), modalSettings.getFrequency());" id="startButton" />
+        <input type="button" value="Start" class="startButton" onclick="" id="startButton" />
     </div>
 
     <div class="stopButton">
-        <input type="button" value="Stop" class="stopButton" onclick="modalSettings.reset();" id="stopButton" />
+        <input type="button" value="Stop" class="stopButton" onclick="" id="stopButton" />
     </div>
 
     <p class="clock" id="displayClock"> </p>
@@ -118,11 +118,12 @@
 
     <!-- <script type="text/javascript" src="cordova.js"></script> -->
     <script type="text/javascript">
+		var observationScreen = new ObservationController();
+		observationScreen.initialize();
         app.initialize();
-        observationTimer.initialize();
-        modalSettings.initialize();
-        systemClock.initialize();
-        observationScreen.initialize();
+		
+        //modalSettings.initialize();
+        //observationScreen.initialize();
     </script>
 </body>
 
