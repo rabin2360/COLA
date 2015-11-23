@@ -83,20 +83,16 @@
     </div>
 
     <div class="app">
-        <div id="deviceready" class="blink">
+    <!--     <div id="deviceready" class="blink">
             <p class="event listening">Connecting to Device</p>
             <p class="event received">Device is Ready</p>
-        </div>
-
-        <div class="testButton">
-            <input type="button" value="testbutton" id="testButton" class="testButton" onclick="modalSettings.show();" />
-            <!-- <p class = "testText" id = "rabin">	</p> -->
-            Start time:
-            <p id="startTime"></p>
-            End time:
-            <p id="endTime"></p>
-        </div>
-
+    </div>
+	 -->	
+		<div class="testButton" id="testButton">
+			<label>
+				<input type="checkbox" value="testbutton" id="checkBoxButton" class="testButton"/><span>Trait1</span>
+			</label>
+		</div>
     </div>
 
     <div class="timerDisplay">
@@ -120,7 +116,7 @@
     <script type="text/javascript">
 		var observationScreen = new ObservationController();
 		observationScreen.initialize();
-        app.initialize();
+        //app.initialize();
 		
         //modalSettings.initialize();
         //observationScreen.initialize();
