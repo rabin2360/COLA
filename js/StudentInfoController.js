@@ -18,6 +18,14 @@ var StudentInfoController = (function() {
     }
 
     StudentInfoController.prototype.initialize = function() {
+        saveButtonElementId = document.getElementById("siSaveButton");
+        saveButtonElementId.addEventListener("click", this.save);
+        
+        clearButtonElementId = document.getElementById("siClearButton");
+        clearButtonElementId.addEventListener("click", this.clear);
+        
+        nextButtonElementId = document.getElementById("siNextButton");
+        nextButtonElementId.addEventListener("click", this.next);
     }
     
     StudentInfoController.prototype.retrieveStudentInfo = function() {
@@ -70,12 +78,13 @@ var StudentInfoController = (function() {
     }
     
     StudentInfoController.prototype.next = function() {
-        this.save();
+        studentInfoScreen.save();
         console.log("NEXT");
+		window.location = "observation.html";
     }
     
     return StudentInfoController;
 
 }());
 
-var studentInfoScreen = new StudentInfoController();
+//var studentInfoScreen = new StudentInfoController();
