@@ -1,22 +1,13 @@
 * {
-    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    -webkit-tap-highlight-color: rgba(0,0,0,0); 
 }
 
 body {
-    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );
+    -webkit-touch-callout: none;                
+    -webkit-text-size-adjust: none;             
+    -webkit-user-select: none;                  
+    background-color:#FFFFFF;
+
     background-attachment:fixed;
     font-size:12px;
     height:100%;
@@ -25,56 +16,158 @@ body {
     width:100%;
 }
 
-.settingsInfo
+.parentDiv
 {
-	//background-color: #FFFF00;
-	position:fixed;
-	left: 0%;
-	top: 10%;
-	height: 20px;
-	width: 150px;
-	//padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
-    //margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
-      
+	position:absolute;
+	background:white;
+	margin:auto;
+	left:0;
+	right:0;
+	top:20px;
+	//bottom:0;
+	height: 35px;
+	width: 325px;
 }
 
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-        background-position:left center;
-        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
-        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
-                                      /* offset horizontal: half of image width and text area width */
-    }
+.settingsInfo
+{
+	position:absolute;
+	margin: auto;
+	left:0;
+	right:0;
+	top:70px;
+	font-size:20px;
+	height: 20px;
+	width: 319px; 
+	text-align: center;
+	font-weight: bold;
 }
-/* Portrait layout (default) */
+
 .app {
-    //background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
-    position:fixed;             /* position in the center of the screen */
-    left:50%;
-    top:50%;
-    height:50px;                   /* text area height */
-    width:225px;                   /* text area width */
+
+	position: absolute;
+    margin:auto;
+	left:0;
+	right:0;
+	top:100px;
+	//top:215px;
+	//left:127px;
+    height:380px;                   
+    width:290px;                   
     text-align:center;
     padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
-    margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
-                                   /* offset horizontal: half of text area width */
+    //margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
+                               /* offset horizontal: half of text area width */
+	background-color:white;
 }
 
 .settingsButton
 {
 
-	position: fixed;
-	left: 0%;
-	top: 4.5%;
-	
+	position:absolute;
+	left:0px;
+	top:15px;
+
+
+	   background-color: rgba(5,134,247,1);
+   background-image: -webkit-linear-gradient(top, rgba(5,87,250,0.38) 43%,rgba(200,200,200,1) 100%);
+   background-image:    -moz-linear-gradient(top, rgba(5,87,250,0.38) 43%,rgba(200,200,200,1) 100%);
+   background-image:     -ms-linear-gradient(top, rgba(5,87,250,0.38) 43%,rgba(200,200,200,1) 100%);
+   background-image:      -o-linear-gradient(top, rgba(5,87,250,0.38) 43%,rgba(200,200,200,1) 100%);
+   background-image:         linear-gradient(top, rgba(5,87,250,0.38) 43%,rgba(200,200,200,1) 100%);
+   display: inline-block;
+   line-height: 30px;
+   color: rgba(255,255,255,1);
+
 	text-align: center;
 	width: 100px;
-	height: 28px;
+	height: 35px;
 	border-radius: 0%;
-	line-height: 0px;
+	//line-height: 0px;
 	background-color: #dddddd;
 	opacity: 1;
 	font-size: 15px;
+}
+
+.settingsButton:active {
+   background-image: -webkit-linear-gradient(top, rgba(21,160,235,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:    -moz-linear-gradient(top, rgba(21,160,235,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:     -ms-linear-gradient(top, rgba(21,160,235,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:      -o-linear-gradient(top, rgba(21,160,235,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:         linear-gradient(top, rgba(21,160,235,1) 43%,rgba(200,200,200,1) 100%);
+}
+
+
+.timerDisplay
+{
+	position:absolute;
+	top:15px;
+	left:100px;
+	text-align: center;
+	width: 123px;
+	line-height:35px;
+	
+	font: Times New Roman;
+	//font-weight:normal;
+	overflow: visible;
+	font-size: 28px;
+	color: white;
+	margin: 0px;
+	height: 35px;
+	background-color: black;
+	background-size: 200px 200px;
+	border: 1px solid black;
+}
+
+.stopButton
+{
+	position:absolute;
+	left: 223px;
+	top:15px;
+	
+	
+   background-color: rgba(5,134,247,1);
+   background-image: -webkit-linear-gradient(top, rgba(250,5,5,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:    -moz-linear-gradient(top, rgba(250,5,5,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:     -ms-linear-gradient(top, rgba(250,5,5,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:      -o-linear-gradient(top, rgba(250,5,5,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:         linear-gradient(top, rgba(250,5,5,1) 43%,rgba(200,200,200,1) 100%);
+   display: inline-block;
+   line-height: 30px;
+   color: rgba(255,255,255,1);
+	
+	text-align:center;
+	width:100px;
+	height:35px;
+	background-color: red;
+	border-radius: 0%;
+	font-size: 15px;
+	
+}
+.stopButton:active {
+   background-image: -webkit-linear-gradient(top, rgba(214,92,92,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:    -moz-linear-gradient(top, rgba(214,92,92,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:     -ms-linear-gradient(top, rgba(214,92,92,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:      -o-linear-gradient(top, rgba(214,92,92,1) 43%,rgba(200,200,200,1) 100%);
+   background-image:         linear-gradient(top, rgba(214,92,92,1) 43%,rgba(200,200,200,1) 100%);
+}
+
+.startButton
+{   
+	position: absolute;
+	margin: auto;
+	left:0;
+	right:0;
+	//left: 125px;
+	top: 495px;
+	text-align: center;
+	width: 70px;
+	height: 70px;
+	font-size: 15px;
+	background: #00CC33;
+	border-radius: 100%;
+	box-shadow: inset 0 0 0 1px #27496d,inset 0 5px 30px #193047;
+
 }
 
 .modal-body-frequency
@@ -87,57 +180,6 @@ body {
 	line-height: inherit;
 }
 
-.startButton
-{   
-	position: fixed;
-	left: 40%;
-	top: 85%;
-	text-align: center;
-	width: 70px;
-	height: 70px;
-	font-size: 15px;
-	background: #00CC33;
-	border-radius: 100%;
-	box-shadow: inset 0 0 0 1px #27496d,inset 0 5px 30px #193047;
-
-}
-
-.stopButton
-{
-	position: fixed;
-	right: 0%;
-	top: 4.5%;
-	
-	text-align: center;
-	width: 100px;
-	height: 28px;
-	background-color: red;
-	border-radius: 0%;
-	font-size: 15px;
-	
-}
-
-.timerDisplay
-{
-	position: fixed;
-	top: 5%;
-	right: 39%;
-	text-align: center;
-	width: 100px;
-	
-	font: Times New Roman;
-	//font-weight:normal;
-	overflow: visible;
-	font-size: 20px;
-	color: white;
-	margin: 0px;
-	height: 25px;
-	background-color: black;
-	background-size: 200px 200px;
-	border-radius: 10%;
-	border: 1px solid black;
-}
-
 .clock
 {
 	position: fixed;
@@ -148,15 +190,119 @@ body {
 	overflow: visible;
 	font-size: 20px;	
 }
-/* Landscape layout (with min-width) */
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-        background-position:left center;
-        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
-        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
-                                      /* offset horizontal: half of image width and text area width */
-    }
+
+.columnNames
+{
+	position: absolute;
+	left: 150px;	
+	top: 0px;
+	font-weight:bold;
+	font-size:15px;
 }
+
+.comparisonPeer
+{
+	position: absolute;
+	left: 210px;
+	top: 0px;
+	font-weight:bold;
+	font-size:20px;
+}
+
+.targetStudent
+{
+	position: absolute;
+	left:60px;
+	top:0px;
+	font-weight:bold;
+	font-size:20px;
+}
+
+.typeOfActivity
+{
+	position:absolute;
+	top: 340px;
+	left: 23px;
+	opacity: 0.6;
+	display: inline;
+}
+
+.traitButton
+{
+	position: absolute;
+	top:20px;
+	left:0px;
+	width:130px;
+	margin:4px;
+    border-radius:4px;
+    overflow:auto;
+    float:left;
+}
+
+.traitButton label {
+	float:left;
+    width:130px;
+	height:40px;
+	opacity: 0.6;
+	border: 1px solid black;
+	font-size:20px;
+	background-color: #EFEFEF;
+	
+	-webkit-box-shadow: inset 1px 1px 1px 0px rgba(0,0,0,0.75), inset -1px -1px 1px 0px rgba(255,255,255,0.75);
+    -moz-box-shadow: inset 1px 1px 1px 0px rgba(0,0,0,0.75), inset -1px -1px 1px 0px rgba(255,255,255,0.75);
+    box-shadow: inset 1px 1px 1px 0px rgba(0,0,0,0.75), inset -1px -1px 1px 0px rgba(255,255,255,0.75);
+	
+	background: #eee;
+	-webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+
+    background: #aaaaaa; /* Old browsers */
+    background: -moz-linear-gradient(top,  #aaaaaa 0%, #cccccc 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#aaaaaa), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #aaaaaa 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #aaaaaa 0%,#cccccc 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #aaaaaa 0%,#cccccc 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #aaaaaa 0%,#cccccc 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aaaaaa', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+
+}
+
+.traitButton label span {
+    text-align:center;
+    padding:3px 0px;
+    display:block;
+	height:40px;
+	-webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.traitButton label input {
+    position:absolute;
+    top:-180px;
+}
+
+.traitButton input:checked +span 
+{
+	background-color:green;
+    color:#fff;
+}
+
+.traitButton input:checked +span.redTraitButtonTS
+{
+	background-color:red;
+    color:#fff;
+}
+
+.traitButton input:checked +span.orangeTraitButtonTS
+{
+	background-color:orange;
+    color:#fff;
+}
+
+
 
 h1 {
     font-size:24px;

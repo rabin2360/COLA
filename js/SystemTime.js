@@ -1,14 +1,9 @@
 var SystemSettings = (function() {
 
     //variables keeping track of stop watch usage
-    var numberOfPauses;
     var pausedTimeStamps;
     var observationStartTime;
     var observationEndTime;
-
-    //listener variables
-    var startButtonElementId;
-    var stopButtonElementId;
 
     //initialize the variables 
     function SystemSettings() {
@@ -33,6 +28,10 @@ var SystemSettings = (function() {
             console.log("index: " + i + ": " + pausedTimeStamps[i]);
         }
     }
+	
+	SystemSettings.prototype.getPausedTimeStamps = function(){
+		return pausedTimeStamps;
+	}
 
     SystemSettings.prototype.getObservationStartTime = function() {
         return observationStartTime;
@@ -52,5 +51,3 @@ var SystemSettings = (function() {
 
     return SystemSettings;
 })();
-
-var systemClock = new SystemSettings();

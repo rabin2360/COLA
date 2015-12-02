@@ -28,26 +28,32 @@ var Timer = (function() {
     }
 
     //get the current time 
-    Timer.prototype.getElapsedTime = function() {
+    function timeDelta() {
         return elapsedTime + (startTime ? (new Date()).getTime() - startTime : 0);
     }
 
+	Timer.prototype.getElapsedTime = function()
+	{
+			return timeDelta();
+	}
+	
     Timer.prototype.start = function(limit, frequency) {
         //this code needs to be changed at some point
-        var timerLimit = limit * 1000;
+        var timerLimit = limit * 1000 *60;
 
         getStartValue();
 
         clocktimer = setInterval(function() {
-            if (startTime != 0 && observationTimer.getElapsedTime() < timerLimit) {
-                incrementObservationStage(observationTimer.getElapsedTime(), frequency);
-                document.getElementById("timer").innerHTML = formatTime(observationTimer.getElapsedTime());
+			if (startTime != 0 && timeDelta() <= timerLimit) {
+                incrementObservationStage(timeDelta(), frequency);
+                document.getElementById("timer").innerHTML = formatTime(timeDelta());
             } else {
                 //I don't like this//
+				observationScreen.saveCurrentStage();
                 document.getElementById("stopButton").click();
             }
 
-        }, 900);
+        }, 80);
 
         console.log("Start button pressed");
 
@@ -59,8 +65,8 @@ var Timer = (function() {
 
         if (Math.floor(latestTime / CONVERT_TO_SECONDS) == frequencyLimit) {
             observationScreen.incrementCurrentStage();
+			observationScreen.updateObservation();
             frequencyLimit = parseInt(frequencyLimit) + parseInt(frequency);
-            console.log("Frequency Limit: " + frequencyLimit);
 
         }
     }
@@ -78,6 +84,7 @@ var Timer = (function() {
         startTime = 0;
         elapsedTime = 0;
         numberOfPauses = 0;
+		frequencyLimit = 0;
 
         clearInterval(clocktimer);
         document.getElementById("timer").innerHTML = "00:00:00";
@@ -107,4 +114,4 @@ var Timer = (function() {
     return Timer;
 }());
 
-var observationTimer = new Timer();
+//var observationTimer = new Timer();
