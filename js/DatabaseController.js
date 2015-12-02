@@ -32,6 +32,7 @@ var DatabaseController = (function() {
         console.log("DEMO table: " + results.rows.length + " rows found.");
         for (var i = 0; i < results.rows.length; i++){
             console.log("Row = " + i + " ID = " + results.rows.item(i).StudentId);
+            console.log("ethnicity = " + results.rows.item(i).Ethnicity);
         }
     } 
 
@@ -89,10 +90,31 @@ var DatabaseController = (function() {
             document.getElementById('siStudentName').value = results.rows.item(0).StudentName; 
             document.getElementById('siDOB').value = results.rows.item(0).DOB;
             document.getElementById('siConsentDate').value = results.rows.item(0).ConsentDate; 
-            document.getElementById('siEthnicity').value = results.rows.item(0).Ethnicity;
-            document.getElementById('siPrimaryLanguage').value = results.rows.item(0).PrimaryLanguage;
-            document.getElementById('siGradeLevel').value = results.rows.item(0).GradeLevel;
-            console.log('set fields')
+            ethnicityDropdown = document.getElementById('siEthnicity');
+            setSelectedValue(ethnicityDropdown, results.rows.item(0).Ethnicity);
+            primaryLanguageDropdown = document.getElementById('siPrimaryLanguage');
+            setSelectedValue(primaryLanguageDropdown, results.rows.item(0).PrimaryLanguage);
+            gradeLevelDropdown = document.getElementById('siGradeLevel');
+            setSelectedValue(gradeLevelDropdown, results.rows.item(0).GradeLevel);
+        } else {
+            //clear all fields except studentID if student doesn't exist in DB
+            document.getElementById('siStudentName').value = ''; 
+            document.getElementById('siDOB').value = '';
+            document.getElementById('siConsentDate').value = ''; 
+            document.getElementById('siEthnicity').value = ''; 
+            document.getElementById('siPrimaryLanguage').value = '';
+            document.getElementById('siGradeLevel').value = '';
+        }
+    }
+
+    function setSelectedValue(selectObj, valueToSet) {
+        for (var i = 0; i < selectObj.options.length; i++) {
+            if (selectObj.options[i].text == valueToSet) {
+                //selectObj.options[i].selected = true;
+                selectObj.selectedIndex = i;
+                console.log('selecting index ' + i);
+                return;
+            }
         }
     }
 

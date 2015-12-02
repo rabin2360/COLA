@@ -47,19 +47,59 @@
             Student ID*: <input type="number" id="siID", placeholder="Student ID #" />
             <input type="button" value="Retrieve" onclick="studentInfoScreen.retrieveStudentInfo()" id="siRetrieveButton" />
             Student name*: <input type="text" id="siStudentName" />
-            <!--TODO: translate DOB input to database format-->
             Student date of birth*: <input type="date" id="siDOB" />
             Student consent date*: <input type="date" id="siConsentDate" />
-            <!--TODO: make dropdown options for ethnicity, primary language and grade level-->
-            Student ethnicity*: <input type="text" id="siEthnicity" />
-            Student primary language: <input type="text" id="siPrimaryLanguage" />
-            Student grade level: <input type="text" id="siGradeLevel" />
-            
+            <!--Student ethnicity*: <input type="text" id="siEthnicity" />-->
+            <div class="modal-body-total">
+                <p>Ethnicity*:</p>
+                <select name="ethnicityDropdown" id="siEthnicity">
+                    <option value="">Please choose...</option>
+                    <option value="White">White</option>
+                    <option value="Black">Black</option>
+                    <option value="Latino">Latino</option>
+                    <option value="Asian">Asian</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="modal-body-total">
+                <p>Student primary language*:</p>
+                <select name="primaryLanguageDropdown" id="siPrimaryLanguage">
+                    <option value="">Please choose...</option>
+                    <option value="English">English</option>
+                    <option value="Black">Spanish</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="modal-body-total">
+                <p>Student grade level:</p>
+                <select name="gradeLevelDropdown" id="siGradeLevel">
+                    <option value="">Please choose...</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
             Teacher name: <input type="text" id="siTeacherName" />
             Class: <input type="text" id="siClass" />
             Observer name: <input type="text" id="siObserverName" />
-            <!--TODO: make dropdown options for observer title-->
-            Obersver title: <input type="text" id="siObserverTitle" />
+            <div class="modal-body-total">
+                <p>Observer Title:</p>
+                <select name="observerTitleDropdown" id="siObserverTitle">
+                    <option value="">Please choose...</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Substitute">Substitute</option>
+                </select>
+            </div>
+
         
         </div>
         
