@@ -114,6 +114,6 @@ var ObservationController = (function() {
     }
 
     return ObservationController;
-})();
+}());
 
 var observationScreen = new ObservationController();
