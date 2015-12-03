@@ -7,20 +7,16 @@
     <meta name="msapplication-tap-highlight" content="no" />
     <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
     <!-- <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
-    <link rel="stylesheet" type="text/css" href="css/QuestionnaireScreenController.css" />
-    <script type="text/javascript" src="js/index.js"></script>
     <!-- <script type="text/javascript" src="js/test.js"></script> -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
 
-    <!-- <script type="text/javascript" src="js/clock.js"></script> -->
-    <script type="text/javascript" src="js/timer.js"></script>
-    <script type="text/javascript" src="js/SettingsScreen.js"></script>
-    <script type="text/javascript" src="js/SystemTime.js"></script>
-    <script type="text/javascript" src="js/newObsController.js"></script>
-	
+	<link rel="stylesheet" type="text/css" href="css/QuestionnaireScreenController.css" />
+      
+   
+    <script type="text/javascript" src="js/QuestionnaireController.js"></script>
 	<script>
 	function back(){
 	 window.location ="test.html";
@@ -29,25 +25,35 @@
     <title>Questionnaire Screen</title>
 </head>
  
-<body>
-<div class="questionnaire">
-<form class ="questions">
-<b>Question #1:</b> What do I ask here?
-</br>
-<textarea name="question1" cols="38" rows="5"></textarea>
-</br>
-</br>
-<b>Question #2:</b> Who am I? Why am I here?
-</br>
-<textarea name="question2" cols="38" rows="5"></textarea>
-</br>
-
-</form>
+<body class="body">
+<div class="questionnaire" id="questionnaire">
+	<form class ="questions" id ="questions">
+		<b>Question #1:</b> What do I ask here?
+		</br>
+		<textarea name="question1" cols="34" rows="5"></textarea>
+		</br>
+		</br>
+		<b>Question #2:</b> Who am I? Why am I here?
+		</br>
+		<textarea name="question2" cols="34" rows="5"></textarea>
+		</br>
+		<b>Question #3:</b> Who am I? Why am I here?
+		</br>
+		<textarea name="question3" cols="34" rows="5"></textarea>
+		</br>
+	</form>
 </div>
 <div class="buttonPanel">
-<button class = "button" name="backButton" onclick= back()>Back</button>
-<button class = "button" name="backButton">Save</button>
+<button class = "button" name="backButton" onclick= questionnaireScreen.previousPage()>Back</button>
+<button class = "button" name="saveResponsesButton" id="saveResponsesButton" onclick="">Save</button>
 </div>
+
+<script>
+var questionnaireScreen = new QuestionnaireController();
+/*	function back(){
+	 window.location ="test.html";
+	 }*/
+	</script>
 </body>
 
 </html>
