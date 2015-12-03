@@ -9,7 +9,8 @@ var Timer = (function() {
     //variable(s) controlling the stop watch
     var frequencyLimit;
 
-    const CONVERT_TO_SECONDS = 1000;
+    const CONVERT_TO_MILLI_SECS = 1000
+	const CONVERT_TO_SECS = 60;
 
     function Timer() {
         startTime = 0;
@@ -39,7 +40,7 @@ var Timer = (function() {
 	
     Timer.prototype.start = function(limit, frequency) {
         //this code needs to be changed at some point
-        var timerLimit = limit * 1000 *60;
+        var timerLimit = limit * CONVERT_TO_MILLI_SECS *CONVERT_TO_SECS;
 
         getStartValue();
 
@@ -49,8 +50,9 @@ var Timer = (function() {
                 document.getElementById("timer").innerHTML = formatTime(timeDelta());
             } else {
                 //I don't like this//
-				observationScreen.saveCurrentStage();
-                document.getElementById("stopButton").click();
+				//observationScreen.saveCurrentStage();
+				observationScreen.stopButtonPressed();
+                //document.getElementById("stopButton").click();
             }
 
         }, 80);
@@ -63,7 +65,7 @@ var Timer = (function() {
         frequencyLimit = frequencyLimit ? frequencyLimit : parseInt(frequencyLimit) + parseInt(frequency);
         //console.log("Frequency Limit: " + frequencyLimit);
 
-        if (Math.floor(latestTime / CONVERT_TO_SECONDS) == frequencyLimit) {
+        if (Math.floor(latestTime / CONVERT_TO_MILLI_SECS) == frequencyLimit) {
             observationScreen.incrementCurrentStage();
 			observationScreen.updateObservation();
             frequencyLimit = parseInt(frequencyLimit) + parseInt(frequency);

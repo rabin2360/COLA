@@ -41,7 +41,8 @@ var SummaryController = (function()
 		
 		observationData = localStorage.getItem("observationData");
 		observationDataParser(observationData);
-		determineTotalObservationValue();
+		getCPTotalObservation();
+		getTSTotalObservation();
 		printValues();
 		observationSummaryInfo();	
 	}
@@ -53,7 +54,7 @@ var SummaryController = (function()
 	
 	function observationSummaryInfo()
 	{
-		document.getElementById("totalObservedIntervals").innerHTML = determineTotalObservationValue();
+		document.getElementById("totalObservedIntervals").innerHTML = getTSTotalObservation();
 		document.getElementById("observationDate").innerHTML = dateParser(localStorage.getItem("observationStartTime"));
 		document.getElementById("startTime").innerHTML = timeParser(localStorage.getItem("observationStartTime"));
 		document.getElementById("endTime").innerHTML = timeParser(localStorage.getItem("observationEndTime"));
@@ -159,32 +160,43 @@ var SummaryController = (function()
 	
 	function printValues()
 	{
-		document.getElementById("tsObserving").innerHTML = percentage(tsObserving);
-		document.getElementById("tsParticipating").innerHTML = percentage(tsParticipating);
-		document.getElementById("tsDisengaged").innerHTML = percentage(tsDisengaged);
-		document.getElementById("tsVerbal").innerHTML = percentage(tsVerbal);
-		document.getElementById("tsMotor").innerHTML = percentage(tsMotor);
-		document.getElementById("tsAggressive").innerHTML = percentage(tsAggressive);
-		document.getElementById("tsOutOfSeat").innerHTML = percentage(tsOutOfSeat);
+		document.getElementById("tsObserving").innerHTML = tsPercentage(tsObserving);
+		document.getElementById("tsParticipating").innerHTML = tsPercentage(tsParticipating);
+		document.getElementById("tsDisengaged").innerHTML = tsPercentage(tsDisengaged);
+		document.getElementById("tsVerbal").innerHTML = tsPercentage(tsVerbal);
+		document.getElementById("tsMotor").innerHTML = tsPercentage(tsMotor);
+		document.getElementById("tsAggressive").innerHTML = tsPercentage(tsAggressive);
+		document.getElementById("tsOutOfSeat").innerHTML = tsPercentage(tsOutOfSeat);
 		
-		document.getElementById("cpObserving").innerHTML = percentage(cpObserving);
-		document.getElementById("cpParticipating").innerHTML = percentage(cpParticipating);
-		document.getElementById("cpDisengaged").innerHTML = percentage(cpDisengaged);
-		document.getElementById("cpVerbal").innerHTML = percentage(cpVerbal);
-		document.getElementById("cpMotor").innerHTML = percentage(cpMotor);
-		document.getElementById("cpAggressive").innerHTML = percentage(cpOutOfSeat);
-		document.getElementById("cpOutOfSeat").innerHTML = percentage(cpOutOfSeat);
+		document.getElementById("cpObserving").innerHTML = cpPercentage(cpObserving);
+		document.getElementById("cpParticipating").innerHTML = cpPercentage(cpParticipating);
+		document.getElementById("cpDisengaged").innerHTML = cpPercentage(cpDisengaged);
+		document.getElementById("cpVerbal").innerHTML = cpPercentage(cpVerbal);
+		document.getElementById("cpMotor").innerHTML = cpPercentage(cpMotor);
+		document.getElementById("cpAggressive").innerHTML = cpPercentage(cpOutOfSeat);
+		document.getElementById("cpOutOfSeat").innerHTML = cpPercentage(cpOutOfSeat);
 		
-		document.getElementById("tsOnTaskBehavior").innerHTML = percentage(onTaskBehavior(tsObserving, tsParticipating));
-		document.getElementById("cpOnTaskBehavior").innerHTML = percentage(onTaskBehavior(cpObserving, cpParticipating));
+		document.getElementById("tsOnTaskBehavior").innerHTML = tsPercentage(onTaskBehavior(tsObserving, tsParticipating));
+		document.getElementById("cpOnTaskBehavior").innerHTML = cpPercentage(onTaskBehavior(cpObserving, cpParticipating));
 		
-		document.getElementById("tsOffTaskBehavior").innerHTML = percentage(offTaskBehavior(tsDisengaged, tsVerbal, tsMotor));
-		document.getElementById("cpOffTaskBehavior").innerHTML = percentage(offTaskBehavior(tsDisengaged, tsVerbal, tsMotor));
+		document.getElementById("tsOffTaskBehavior").innerHTML = tsPercentage(offTaskBehavior(tsDisengaged, tsVerbal, tsMotor));
+		document.getElementById("cpOffTaskBehavior").innerHTML = cpPercentage(offTaskBehavior(tsDisengaged, tsVerbal, tsMotor));
 	}
 	
-	function percentage(inputValue)
+	function tsPercentage(inputValue)
 	{
-		var total = determineTotalObservationValue();
+		var total = getTSTotalObservation();
+		return percentage(inputValue, total);
+	}
+	
+	function cpPercentage(inputValue)
+	{
+		var total = getCPTotalObservation();
+		return percentage(inputValue, total);
+	}
+	
+	function percentage(inputValue, total)
+	{
 		var percentageValue;
 		
 		//calculate percentage
@@ -202,10 +214,22 @@ var SummaryController = (function()
 	
 	function determineTotalObservationValue()
 	{
-		var total;
-		
-		total = parseInt(onTaskBehavior(tsObserving, tsParticipating)) + parseInt(offTaskBehavior(tsDisengaged, tsVerbal, tsMotor));
-		return total;
+		tsTotal = parseInt(onTaskBehavior(tsObserving, tsParticipating)) + parseInt(offTaskBehavior(tsDisengaged, tsVerbal, tsMotor));
+		cpTotal = parseInt(onTaskBehavior(cpObserving, cpParticipating)) + parseInt(offTaskBehavior(cpDisengaged, cpVerbal, cpMotor));
+	}
+	
+	function getCPTotalObservation()
+	{
+		var cpTotal = 0;
+		cpTotal = parseInt(onTaskBehavior(cpObserving, cpParticipating)) + parseInt(offTaskBehavior(cpDisengaged, cpVerbal, cpMotor));
+		return cpTotal;
+	}
+	
+	function getTSTotalObservation()
+	{
+		var tsTotal = 0;
+		tsTotal = parseInt(onTaskBehavior(tsObserving, tsParticipating)) + parseInt(offTaskBehavior(tsDisengaged, tsVerbal, tsMotor));
+		return tsTotal;
 	}
 	
 	function onTaskBehavior(observing, participating)

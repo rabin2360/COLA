@@ -9,6 +9,10 @@ var ObservationController = (function() {
     var observationSettings;
     var systemClockSettings;
 
+	var saveSettingsButtonElementId;
+	var resetSettingsButtonElementId;
+	var cancelSettingsButtonElementId;
+	
     const SECONDS = 60;
 
 	var observationButtonsId;
@@ -16,6 +20,9 @@ var ObservationController = (function() {
 	
 	var typeOfActivityButtonId;
 	var typeOfActivityButtonOpacity;
+	
+	var stopButtonId;
+	var stopButtonOpacity;
 	
 	var dataArray;
 	
@@ -28,14 +35,17 @@ var ObservationController = (function() {
         startButtonElementId.addEventListener("click", startButtonPressed);
 
         stopButtonElementId = document.getElementById("stopButton");
-        stopButtonElementId.addEventListener("click", stopButtonPressed);
+        stopButtonElementId.addEventListener("click", this.stopButtonPressed);
 
         saveSettingsButtonElementId = document.getElementById("saveSettings");
-        saveSettingsButtonElementId.addEventListener("click", this.getTotalStages);
+        saveSettingsButtonElementId.addEventListener("click", saveTotalObservationTime);
 
-        saveSettingsButtonElementId = document.getElementById("resetSettings");
-        saveSettingsButtonElementId.addEventListener("click", this.getTotalStages);
+        resetSettingsButtonElementId = document.getElementById("resetSettings");
+        resetSettingsButtonElementId.addEventListener("click", resetFrequencyAndTotalTime);
 
+		cancelSettingsButtonElementId = document.getElementById("cancelSettings");
+        cancelSettingsButtonElementId.addEventListener("click", cancelObservationSettings);
+		
         timerWatch = new Timer();
         observationSettings = new Settings();
         systemClockSettings = new SystemSettings();
@@ -46,15 +56,55 @@ var ObservationController = (function() {
 		typeOfActivityButtonId = document.getElementById("typeOfActivity");
 		disableTypeOfActivity(true);
 		
+		stopButtonId = document.getElementById("stopButton");
+		disableStopButton(true);
+		
 		observationButtonsOpacity = document.querySelectorAll(".traitButton label");
 		opacityObservationButtons(0.6);
 		
 		typeOfActivityButtonOpacity = document.querySelector(".typeOfActivity");
 		opacityTypeOfActivity(0.6);
 		
+		stopButtonOpacity = document.querySelector(".stopButton");
+		opacityStopButton(0.6);
+		
 		dataArray = [];
 		
     }
+	
+	
+    ObservationController.prototype.getCurrentStage = function() {
+        document.getElementById("settingsInfoNumer").innerHTML = currentStage;
+        return currentStage;
+    }
+
+	function cancelObservationSettings()
+	{
+		observationSettings.cancel();
+	}
+	
+    function saveTotalObservationTime() {
+		observationSettings.save();
+		var stages = (observationSettings.getTotalObservationTime() * SECONDS) / observationSettings.getFrequency();
+        document.getElementById("settingsInfoDeno").innerHTML = stages;
+    }
+	
+	function resetFrequencyAndTotalTime()
+	{
+		observationSettings.reset();
+		var stages = (observationSettings.getTotalObservationTime() * SECONDS) / observationSettings.getFrequency();
+        document.getElementById("settingsInfoDeno").innerHTML = stages;
+	}
+	
+	function disableStopButton(isDisabled)
+	{
+		stopButtonId.disabled = isDisabled;
+	}
+	
+	function opacityStopButton(opacityIndex)
+	{
+		stopButtonOpacity.style.opacity = opacityIndex;
+	}
 	
 	function disableTypeOfActivity(isDisabled)
 	{
@@ -93,19 +143,8 @@ var ObservationController = (function() {
 	}
 	
     ObservationController.prototype.initialize = function() {
-        this.getTotalStages();
+        saveTotalObservationTime();
         this.getCurrentStage();
-    }
-
-    ObservationController.prototype.getCurrentStage = function() {
-        document.getElementById("settingsInfoNumer").innerHTML = currentStage;
-        return currentStage;
-    }
-
-    ObservationController.prototype.getTotalStages = function() {
-        var stages = (observationSettings.getTotalObservationTime() * SECONDS) / observationSettings.getFrequency();
-        document.getElementById("settingsInfoDeno").innerHTML = stages;
-        return stages;
     }
 
     ObservationController.prototype.incrementCurrentStage = function() {
@@ -121,42 +160,60 @@ var ObservationController = (function() {
 
     function startButtonPressed() {
         observationSettings.startPauseSettingsDisplay();
-        if (document.getElementById("startButton").value == "Start") {
-            timerWatch.start(observationSettings.getTotalObservationTime(), observationSettings.getFrequency());
-            systemClockSettings.recordObservationStartOrPauseTime();
-			disableObservationButtons(false);
-			disableTypeOfActivity(false);
-			opacityObservationButtons(1);
-			opacityTypeOfActivity(1);
-            changeStartButtonUI("Pause", "#FFFF00");
-        } else {
-            numberOfPauses++;
-            timerWatch.pause();
-            observationSettings.disableDropDownMenuItems(timerWatch.getElapsedTime());
-            changeStartButtonUI("Start", '#00CC33');
-			disableObservationButtons(true);
-			disableTypeOfActivity(true);
-			opacityObservationButtons(0.6);
-			opacityTypeOfActivity(0.6);
-
+        if (document.getElementById("startButton").value == "Start") 
+		{	
+           startProcess();
+        } 
+		else 
+		{	
+			pauseProcess();   
         }
     }
 
+	function startProcess()
+	{
+	    timerWatch.start(observationSettings.getTotalObservationTime(), observationSettings.getFrequency());
+        systemClockSettings.recordObservationStartOrPauseTime();
+		disableObservationButtons(false);
+		disableTypeOfActivity(false);
+		disableStopButton(true);
+		opacityStopButton(0.6);
+		opacityObservationButtons(1);
+		opacityTypeOfActivity(1);
+        changeStartButtonUI("Pause", "#FFFF00");	
+	}
+	
+	function pauseProcess()
+	{
+		numberOfPauses++;
+        timerWatch.pause();
+        observationSettings.disableDropDownMenuItems(timerWatch.getElapsedTime());
+        changeStartButtonUI("Start", '#00CC33');
+	    disableObservationButtons(true);
+		disableTypeOfActivity(true);
+		disableStopButton(false);
+		opacityStopButton(1);
+		opacityObservationButtons(0.6);
+		opacityTypeOfActivity(0.6);
+	}
+	
     function changeStartButtonUI(buttonText, buttonColor) {
         document.getElementById("startButton").value = buttonText;
         document.getElementById("startButton").style.background = buttonColor;
     }
 
-    function stopButtonPressed() {
-        timerWatch.pause();
-            observationSettings.disableDropDownMenuItems(timerWatch.getElapsedTime());
-            changeStartButtonUI("Start", '#00CC33');
-			disableObservationButtons(true);
-			disableTypeOfActivity(true);
-			opacityObservationButtons(0.6);
-			opacityTypeOfActivity(0.6);
-			
-		popUpWindow();
+    ObservationController.prototype.stopButtonPressed = function() {
+		if(timerWatch.getElapsedTime()>(observationSettings.getTotalObservationTime()*1000*60))
+		{	
+			saveCurrentStageData();
+			stopProcess();
+			navigateToAnotherPage();
+			window.location = "test.html";
+		}
+		else
+		{
+			popUpWindow();
+		}
 
     }
 	
@@ -165,6 +222,7 @@ var ObservationController = (function() {
 		timerWatch.stop();
         systemClockSettings.getObservationStopTime();
         resetCurrentStage();
+		
         observationSettings.stopSettingsDisplay();
         observationSettings.enableDropDownMenuItems();
         changeStartButtonUI("Start", "#00CC33");
@@ -179,7 +237,8 @@ var ObservationController = (function() {
 	{	var userDecision = confirm("Are you sure you want to stop the observation?");
 	
 		if(userDecision)
-		{   stopProcess();
+		{   
+			stopProcess();
 			navigateToAnotherPage();
 			window.location = "test.html";
 		}
@@ -195,12 +254,36 @@ var ObservationController = (function() {
 	
 	ObservationController.prototype.traitButtonSelector = function(inputValue)
 	{
-		//console.log("inputValue"+inputValue);
+		var buttonElements;
+		var receivedInputValue = inputValue;
+		
+		//target student buttons
+		if(inputValue.substring(0,1) == "t")
+		{
+			buttonElements = document.getElementById("traitButtonsTS");
+			unselectOtherButtons(buttonElements, receivedInputValue);
+		}
+		//comparison peer buttons
+		else
+		{
+			buttonElements = document.getElementById("traitButtonsCP");
+			unselectOtherButtons(buttonElements, receivedInputValue);
+		}
+	}
+	
+	function unselectOtherButtons(buttonElements, inputValue)
+	{
+		for(var i =0; i<(buttonElements.children.length-2); i++)
+			{
+				if(buttonElements.children[i].children[0].value !=inputValue)
+				{
+					buttonElements.children[i].children[0].checked = false;
+				}
+		}
 	}
 	
 	ObservationController.prototype.updateObservation = function()
 	{
-		//console.log("update observation");
 		saveCurrentStageData();
 		resetObservationButtons();
 	}
@@ -255,10 +338,7 @@ var ObservationController = (function() {
 		}
 		
 		dataArray.push(typeOfActivityButtonId.options[typeOfActivityButtonId.selectedIndex].text);
-		//console.log("save");
     }
 
     return ObservationController;
 }());
-
-//var observationScreen = new ObservationController();
