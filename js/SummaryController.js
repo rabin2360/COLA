@@ -51,6 +51,11 @@ var SummaryController = (function()
 	{
 		window.location = previousPageName;
 	}
+
+	SummaryController.prototype.nextPage = function()
+	{
+		window.location = "QuestionnaireScreen.html";
+	}
 	
 	function observationSummaryInfo()
 	{
