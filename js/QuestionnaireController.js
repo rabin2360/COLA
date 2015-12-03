@@ -4,6 +4,7 @@ var formElementId;
 var observerResponses;
 
 var saveResponsesElementId;
+var characterCounterQuestion1;
 
 function QuestionnaireController()
 {
@@ -14,6 +15,18 @@ function QuestionnaireController()
 	saveResponsesElementId = document.getElementById("saveResponsesButton");
 	saveResponsesElementId.addEventListener("click", save);
 	
+	
+	characterCounterQuestion1 = document.getElementById("question1");
+	characterCounterQuestion1.addEventListener("keyup", function(){characterCounter(characterCounterQuestion1)});
+	document.getElementById(characterCounterQuestion1.id+"Chars").innerHTML = 500;
+	
+	characterCounterQuestion2 = document.getElementById("question2");
+	characterCounterQuestion2.addEventListener("keyup", function(){characterCounter(characterCounterQuestion2)});
+	document.getElementById(characterCounterQuestion2.id+"Chars").innerHTML = 500;
+	
+	characterCounterQuestion3 = document.getElementById("question3");
+	characterCounterQuestion3.addEventListener("keyup", function(){characterCounter(characterCounterQuestion3)});
+	document.getElementById(characterCounterQuestion3.id+"Chars").innerHTML = 500;
 }
 
 function save()
@@ -49,6 +62,14 @@ function retrieveAnswers()
 	{
 		observerResponses[i] = formElementId.elements[i].value;
 	}
+}
+
+function characterCounter(elementId)
+{
+	id = elementId.id;	
+	var max = elementId.maxLength;
+	var currentLength = elementId.value.length;
+	document.getElementById(id+"Chars").innerHTML = max - currentLength;
 }
 
 return QuestionnaireController;
