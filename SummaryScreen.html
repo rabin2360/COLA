@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <!--<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />-->
+        <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
+		<!-- <script type="text/javascript" src="js/index.js"></script> -->
+		
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		
+		<script type="text/javascript" src="js/timer.js"></script>
+		<script type="text/javascript" src="js/SettingsScreen.js"></script>
+		<script type="text/javascript" src="js/SystemTime.js"></script>
+		<script type="text/javascript" src="js/ObservationController.js"></script>
+		<script type="text/javascript" src="js/summaryScreen.js"></script>
+		<script type="text/javascript" src="js/StudentInfoController.js"></script>
+		
+		<script type="text/javascript" src="js/SummaryController.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="css/SummaryController.css" />
+		
+		<!-- for the icons -->
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+		
+		<script>
+		function initInput()
+		{
+			document.studentForm.userName.value = studentInfoScreen.studentName;
+			document.studentForm.obsDate.value = studentInfoScreen.consentDate;
+			document.studentForm.userClass.value = studentInfoScreen.currClass;
+			document.studentForm.userTeacher.value = studentInfoScreen.teacherName;
+			document.studentForm.obsName.value = studentInfoScreen.observerName;
+			/*document.studentForm.userDate.value = studentInfoScreen.dateOfBirth;
+			
+			
+			document.studentForm.obsStart.value = systemClock.observationStartTime;
+			document.studentForm.obsStop.value = systemClock.observationEndTime;*/
+		}
+	</script>
+		
+		
+
+		<title>COLA - Comparative Observation for Learning or Attention</title>
+
+    </head>
+    <body onload="initInput()">
+		<form name="studentForm" id="summaryForm">
+		
+			<label id="summaryHeading">Observation Summary Information: </label><br>
+			<label for="userName">Student Name: </label>
+			<input type="text" id="userName" value=""><br>
+			<label>Date:   </label>
+			<input type="text" id="obsDate" value=""><br>
+			<label for="userClass">Subject: </label>
+			<input type="text" id="userClass" value=""><br>
+			<label for="userTeacher">Teacher: </label>
+			<input type="text" id="userTeacher" value=""><br>
+			<label for="obsName"> Observer: </label>
+			<input type="text" id="obsName" value=""><br>
+			<!--<label for="obsStart">Start Time: </label>
+			<input type="text" id="obsStart" value=""><br>-->
+			<br>
+		
+		</form>
+
+		
+		<table class ="observationSummaryTable" id = "observationSummary" border=1 cellspacing = 0>
+  <tr>
+    <td>Traits</td><td><span>Target Student</span></td><td> Comparison Peer </td> 
+  </tr>
+  <tr>
+    <td>Observing</td><td><span id ="tsObserving"></span></td><td><span id ="cpObserving"></span></td>
+  </tr>
+   <tr>
+    <td>Participating </td><td><span id ="tsParticipating"></span></td><td><span id ="cpParticipating"></span></td>
+  </tr>
+   <tr>
+    <td>Disengaged </td><td><span id ="tsDisengaged"></span></td><td><span id ="cpDisengaged"></span></td> 
+  </tr>
+     <tr>
+    <td>Verbal </td><td><span id ="tsVerbal"></span></td><td><span id ="cpVerbal"></span></td> 
+  </tr>
+  <tr>
+    <td>Motor </td><td><span id ="tsMotor"></span></td><td><span id ="cpMotor"></span></td>
+  </tr>
+  <tr>
+    <td>Aggressive </td><td><span id ="tsAggressive"></span></td><td><span id ="cpAggressive"></span></td>
+  </tr>
+  <tr>
+    <td>Out Of Seat </td><td><span id ="tsOutOfSeat"></span></td><td><span id ="cpOutOfSeat"></span></td>  
+  </tr>
+     <tr>
+    <td>On Task Behavior </td><td><span id ="tsOnTaskBehavior"></span></td><td><span id ="cpOnTaskBehavior"></span></td>  
+  </tr>
+     <tr>
+    <td>Off Task Behavior</td><td><span id ="tsOffTaskBehavior"></span></td><td><span id ="cpOffTaskBehavior"></span></td> 
+  </tr>
+</table>
+</br>
+	<div class="buttonPlace">
+		<input type="button" value="back" onClick="summaryScreenBack()" id="backPlace">
+		<input type="button" value="save" onClick="summaryScreen()" id="savePlace">
+		<input type="button" value="next" onClick="summaryScreenNext()" id="nextPlace">
+	</div>
+	
+	
+
+	<script type="text/javascript">
+
+document.getElementById("cpOffTaskBehavior").innerHTML = "rabin";
+localStorage.getItem("observationEndTime");
+localStorage.getItem("pausedTimeStamps");
+localStorage.getItem("observationFrequency");
+localStorage.getItem("observationTotalTime");
+localStorage.getItem("observationData");
+
+var summaryPage = new SummaryController();
+</script>
+		
+		<!--<div id="libiza">
+			
+		</div>-->
+		
+		
+					
+				
+		
+    </body>
+</html>
