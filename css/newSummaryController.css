@@ -82,11 +82,13 @@
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 10px;
+	background-color: #F5F5F0;
 }
 
 #summaryHeading {
 	width: 320px;
 	border: 1px solid black;
+	background-color: #E0E0D1;
 }
 
 #summaryForm label:nth-child(6) {
