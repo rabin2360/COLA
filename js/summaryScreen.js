@@ -15,4 +15,3 @@ function summaryScreenNext() {
 function summaryScreenBack() {
 		window.location = "index.html";
 }
-
