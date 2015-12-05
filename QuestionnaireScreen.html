@@ -9,48 +9,58 @@
     <!-- <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
     <!-- <script type="text/javascript" src="js/test.js"></script> -->
 
+	<link rel="stylesheet" type="text/css" href="css/QuestionnaireScreenController.css" />
+    <script type="text/javascript" src="js/QuestionnaireController.js"></script>
+	
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-	<link rel="stylesheet" type="text/css" href="css/QuestionnaireScreenController.css" />
-      
-   
-    <script type="text/javascript" src="js/QuestionnaireController.js"></script>
-	<script>
-	function back(){
-	 window.location ="test.html";
-	 }
-	</script>
     <title>Questionnaire Screen</title>
 </head>
  
 <body class="body">
 <div class="questionnaire" id="questionnaire">
 	<form class ="questions" id ="questions">
-		<b>Question #1:</b> What do I ask here?
+
+	<div class = "questionButton">
+    <button  type ="button" class = "questionButton1" name="question1Button" id ="question1Button"><b>Question #1:</b> What things seemed to help the student when on-task? What things seemed to help get the student back on -task?
+	</button>
+	<!-- <b>Question #1:</b> What things seemed to help the student when on-task? What things seemed to help get the student back on -task? -->
 		</br>
-		<textarea name="question1" cols="34" rows="5" maxlength="500" id="question1"></textarea>
+		<textarea name="question1" cols="30" rows="5" maxlength="500" id="question1" class ="textarea1"></textarea>
 		</br>
-		<span id ="question1Chars"></span> character(s) remaining.
+		<div class ="remainingChars1"><span id ="question1Chars"></span> character(s) remaining.</div>
+
+	<button  type ="button" class = "questionButton2" name="question2Button" id ="question2Button"><b>Question #2:</b> What things seemed to get the student off-task? What things seemed to keep the student on task?
+	</button>	
+		<textarea name="question2" cols="30" rows="5" maxlength="500" id="question2" class="textarea2"></textarea>
 		</br>
-		</br>
-		
-		<b>Question #2:</b> Who am I? Why am I here?
-		</br>
-		<textarea name="question2" cols="34" rows="5" maxlength="500" id="question2"></textarea>
-		</br>
-		<span id ="question2Chars"></span> character(s) remaining.
-		</br>
-		</br>
-		
-		<b>Question #3:</b> Who am I? Why am I here?
-		</br>
-		<textarea name="question3" cols="34" rows="5" maxlength="500" id="question3"></textarea>
-		</br>
-		<span id ="question3Chars"></span> character(s) remaining.
-		</br>
-		</br>
+		<div class ="remainingChars2"><span id ="question2Chars"></span> character(s) remaining.</div>
+	
+	<br>
+	<div class="dropDownQuestions">
+         <b>Question #3:</b>How did the Target Student's behavior compare to what the teacher typically sees?
+            <select name="nominalTSBehavior" id="nominalTSBehavior">
+                <option value="moreOffTaskThanUsual">More Off Task Than Usual</option>
+                <option value="aboutTheSame">About The Same</option>
+				<option value="moreOnTaskThanUsual">More On Task Than Usual</option>
+            </select>
+    </div>
+	</br>
+	<div class="dropDownQuestions">
+         <b>Question #4:</b>Compared to other students, how much work did Target Student produce?
+            <select name="tsProductivity" id="tsProductivity">
+                <option value="lessthan25">Less than 25%</option>
+                <option value="25to50">25% to 50%</option>
+				<option value="50to75">50% to 75%</option>
+                <option value="75to100">75% to 100%</option>
+				<option value="morethan100">More than 100%</option>
+            </select>
+    </div>
+	
+	
+	</div>	
 	</form>
 </div>
 <div class="buttonPanel">
@@ -60,10 +70,8 @@
 
 <script>
 var questionnaireScreen = new QuestionnaireController();
-/*	function back(){
-	 window.location ="test.html";
-	 }*/
-	</script>
+</script>
+
 </body>
 
 </html>

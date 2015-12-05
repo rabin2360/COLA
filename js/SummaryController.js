@@ -185,7 +185,7 @@ var SummaryController = (function()
 		document.getElementById("cpOnTaskBehavior").innerHTML = cpPercentage(onTaskBehavior(cpObserving, cpParticipating));
 		
 		document.getElementById("tsOffTaskBehavior").innerHTML = tsPercentage(offTaskBehavior(tsDisengaged, tsVerbal, tsMotor));
-		document.getElementById("cpOffTaskBehavior").innerHTML = cpPercentage(offTaskBehavior(tsDisengaged, tsVerbal, tsMotor));
+		document.getElementById("cpOffTaskBehavior").innerHTML = cpPercentage(offTaskBehavior(cpDisengaged, cpVerbal, cpMotor));
 	}
 	
 	function tsPercentage(inputValue)
