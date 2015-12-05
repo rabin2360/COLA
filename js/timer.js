@@ -55,7 +55,7 @@ var Timer = (function() {
                 //document.getElementById("stopButton").click();
             }
 
-        }, 80);
+        }, 500);
 
         console.log("Start button pressed");
 
