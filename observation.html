@@ -20,7 +20,6 @@
     <script type="text/javascript" src="js/SettingsScreen.js"></script>
     <script type="text/javascript" src="js/SystemTime.js"></script>
     <script type="text/javascript" src="js/newObsController.js"></script>
-    <script type="text/javascript" src="js/DatabaseController.js"></script>
 	
 	<!-- <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"> -->
     <!-- <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script> -->
@@ -39,6 +38,41 @@
  
 <body onload="localStorage.clear()">
 
+    <!--
+        STUDENT INFORMATION SCREEN
+    -->
+<!--     <div data-role="page" id="StudentInfoScreen">
+        <div data-role="main" class="ui-content">
+            Student ID*: <input type="number" id="siID", placeholder="Student ID #" />
+            <input type="button" value="Retrieve" onclick="studentInfoScreen.retrieveStudentInfo()" id="siRetrieveButton" />
+            Student name*: <input type="text" id="siStudentName" />
+            <!--TODO: translate DOB input to database format-->
+<!--             Student date of birth*: <input type="date" id="siDOB" />
+            Student consent date*: <input type="date" id="siConsent" />
+            <!--TODO: make dropdown options for ethnicity, primary language and grade level-->
+<!--             Student ethnicity*: <input type="text" id="siEthnicity" />
+            Student primary language: <input type="text" id="siPrimaryLanguage" />
+            Student grade level: <input type="text" id="siGradeLevel" />
+            
+            Teacher name: <input type="text" id="siTeacherName" />
+            Class: <input type="text" id="siClass" />
+            Observer name: <input type="text" id="siObserverName" />
+            <!--TODO: make dropdown options for observer title-->
+<!--             Obersver title: <input type="text" id="siObserverTitle" />
+        
+        </div>
+        
+        <div class="siSaveButton">
+            <input type="button" value="Save" onclick="studentInfoScreen.save()" id="siSaveButton" />
+        </div>
+        <div class="siClearButton">
+            <input type="button" value="Clear" onclick="studentInfoScreen.clear()" id="siClearButton" />
+        </div>
+        <div class="siNextButton">
+            <a href="#ObservationScreen" class="ui-btn" onclick="studentInfoScreen.save()" id="siNextButton">Next</a>
+        </div>
+
+    </div> -->
     <!--
         OBSERVATION SCREEN
     -->
@@ -190,7 +224,7 @@
 
     <input type="button" value="Start" class="startButton" onclick="" id="startButton" />
 
-    <!-- <script type="text/javascript" src="cordova.js"></script> -->
+    <!-- <script type="text/javascript" src="cordova.j 	s"></script> -->
     <script type="text/javascript">
         var observationScreen = new ObservationController();
         observationScreen.initialize();
