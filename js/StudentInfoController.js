@@ -26,9 +26,16 @@ var StudentInfoController = (function() {
         
         nextButtonElementId = document.getElementById("siNextButton");
         nextButtonElementId.addEventListener("click", this.next);
+        
+        retrieveButtonElementId = document.getElementById("siRetrieveButton");
+        retrieveButtonElementId.addEventListener("click", this.retrieveStudentInfo);
+
+        dbController = new DatabaseController();
     }
     
     StudentInfoController.prototype.retrieveStudentInfo = function() {
+        studentID = ((document.getElementById('siID') != null) ? document.getElementById('siID').value : null);
+        dbController.retrieveStudentInfo(studentID);
         console.log("retrieve student info from: " + studentID);
     }
 
@@ -45,8 +52,8 @@ var StudentInfoController = (function() {
         observerName = ((document.getElementById('siObserverName') != null) ? document.getElementById('siObserverName').value : null);
         observerTile = ((document.getElementById('siObserverTitle') != null) ? document.getElementById('siObserverTitle').value : null);
         
-        //TODO: check required fields
-        //TODO: connect to database and save
+        dbController.saveStudentInfo(studentID, studentName, dateOfBirth, consentDate, ethnicity, primaryLanguage, gradeLevel,
+                                     teacherName, currClass, observerName, observerTile);
         
         console.log("SI save button pressed: " + studentID + "  " + studentName);
     }
@@ -75,6 +82,8 @@ var StudentInfoController = (function() {
         currClass = null;       
         observerName = null;    
         observerTile = null;    
+        
+        console.log("clear pressed: " + document.getElementById('siID').value);
     }
     
     StudentInfoController.prototype.next = function() {
