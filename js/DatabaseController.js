@@ -75,8 +75,7 @@ var DatabaseController = (function() {
                         'EndDateTime varchar(255) NOT NULL,\n' +
                         'PRIMARY KEY (SessionId) )')
         
-        var sessionID = new Date().getTime();
-        localStorage.setItem('sessionID', sessionID)
+        var sessionID = localStorage.getItem('sessionID');		
         var studentID = localStorage.getItem("studentID");
         var teacherName = localStorage.getItem("teacherName");
         var currClass = localStorage.getItem("currClass");

@@ -69,7 +69,9 @@ var ObservationController = (function() {
 		opacityStopButton(0.6);
 		
 		dataArray = [];
-		
+        
+        var sessionID = new Date().getTime();
+        localStorage.setItem('sessionID', sessionID);		
     }
 	
 	
