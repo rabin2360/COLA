@@ -50,11 +50,27 @@ var StudentInfoController = (function() {
         teacherName = ((document.getElementById('siTeacherName') != null) ? document.getElementById('siTeacherName').value : null);
         currClass = ((document.getElementById('siClass') != null) ? document.getElementById('siClass').value : null);
         observerName = ((document.getElementById('siObserverName') != null) ? document.getElementById('siObserverName').value : null);
-        observerTile = ((document.getElementById('siObserverTitle') != null) ? document.getElementById('siObserverTitle').value : null);
+        observerTitle = ((document.getElementById('siObserverTitle') != null) ? document.getElementById('siObserverTitle').value : null);
         
+        console.log('studentID = ' + studentID);
+        
+        localStorage.setItem("studentID", studentID);
+        localStorage.setItem("studentName", studentName);
+        localStorage.setItem("dateOfBirth", dateOfBirth);
+        localStorage.setItem("consentDate", consentDate);
+        localStorage.setItem("ethnicity", ethnicity);
+        localStorage.setItem("primaryLanguage", primaryLanguage);
+        localStorage.setItem("gradeLevel", gradeLevel);
+        localStorage.setItem("teacherName", teacherName);
+        localStorage.setItem("currClass", currClass);
+        localStorage.setItem("observerName", observerName);
+        localStorage.setItem("observerTitle", observerTitle);
+
+        console.log('sid = ' + localStorage.getItem("studentID"));
+
         dbController.saveStudentInfo(studentID, studentName, dateOfBirth, consentDate, ethnicity, primaryLanguage, gradeLevel,
-                                     teacherName, currClass, observerName, observerTile);
-        
+                                     teacherName, currClass, observerName, observerTitle);
+
         console.log("SI save button pressed: " + studentID + "  " + studentName);
     }
     
