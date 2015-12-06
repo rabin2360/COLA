@@ -114,7 +114,7 @@ QuestionnaireController.prototype.previousPage =function()
 {
 	//save info before going to summary screen
 	saveTextValues();
-	window.location = "test.html";
+	window.location = "SummaryScreen.html";
 }
 
 function writeTextValues()

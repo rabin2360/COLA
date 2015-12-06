@@ -208,7 +208,7 @@ var ObservationController = (function() {
 			saveCurrentStageData();
 			stopProcess();
 			navigateToAnotherPage();
-			window.location = "test.html";
+			window.location = "SummaryScreen.html";
 		}
 		else
 		{
@@ -240,7 +240,7 @@ var ObservationController = (function() {
 		{   
 			stopProcess();
 			navigateToAnotherPage();
-			window.location = "test.html";
+			window.location = "SummaryScreen.html";
 		}
 		
 	}

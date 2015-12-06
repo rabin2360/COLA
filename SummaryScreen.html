@@ -34,42 +34,24 @@
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		
-		<script type="text/javascript" src="js/timer.js"></script>
-		<script type="text/javascript" src="js/SettingsScreen.js"></script>
-		<script type="text/javascript" src="js/SystemTime.js"></script>
-		<script type="text/javascript" src="js/ObservationController.js"></script>
-		<script type="text/javascript" src="js/summaryScreen.js"></script>
-		<script type="text/javascript" src="js/StudentInfoController.js"></script>
+		<!-- <script type="text/javascript" src="js/timer.js"></script> -->
+		<!-- <script type="text/javascript" src="js/SettingsScreen.js"></script> -->
+		<!-- <script type="text/javascript" src="js/SystemTime.js"></script> -->
+		<!-- <script type="text/javascript" src="js/ObservationController.js"></script> -->
+		<!-- <script type="text/javascript" src="js/summaryScreen.js"></script> -->
+		<!-- <script type="text/javascript" src="js/StudentInfoController.js"></script> -->
 		
 		<script type="text/javascript" src="js/SummaryController.js"></script>
 		
-		<link rel="stylesheet" type="text/css" href="css/SummaryController.css" />
+		<link rel="stylesheet" type="text/css" href="css/newSummaryController.css" />
 		
 		<!-- for the icons -->
 		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 		
-		<script>
-		function initInput()
-		{
-			document.studentForm.userName.value = studentInfoScreen.studentName;
-			document.studentForm.obsDate.value = studentInfoScreen.consentDate;
-			document.studentForm.userClass.value = studentInfoScreen.currClass;
-			document.studentForm.userTeacher.value = studentInfoScreen.teacherName;
-			document.studentForm.obsName.value = studentInfoScreen.observerName;
-			/*document.studentForm.userDate.value = studentInfoScreen.dateOfBirth;
-			
-			
-			document.studentForm.obsStart.value = systemClock.observationStartTime;
-			document.studentForm.obsStop.value = systemClock.observationEndTime;*/
-		}
-	</script>
-		
-		
-
-		<title>COLA - Comparative Observation for Learning or Attention</title>
+		<title>Summary Screen</title>
 
     </head>
-    <body onload="initInput()">
+    <body>
 		<form name="studentForm" id="summaryForm">
 		
 			<label id="summaryHeading">Observation Summary Information: </label><br>
@@ -124,32 +106,15 @@
 </table>
 </br>
 	<div class="buttonPlace">
-		<input type="button" value="back" onClick="summaryScreenBack()" id="backPlace">
-		<input type="button" value="save" onClick="summaryScreen()" id="savePlace">
-		<input type="button" value="next" onClick="summaryScreenNext()" id="nextPlace">
+		<input type="button" value="back" onClick="summaryPage.previousPage()" id="backPlace">
+		<input type="button" value="save" onClick="summaryPage.saveEditedInfo()" id="savePlace">
+		<input type="button" value="next" onClick="summaryPage.nextPage()" id="nextPlace">
 	</div>
 	
 	
 
-	<script type="text/javascript">
-
-document.getElementById("cpOffTaskBehavior").innerHTML = "rabin";
-localStorage.getItem("observationEndTime");
-localStorage.getItem("pausedTimeStamps");
-localStorage.getItem("observationFrequency");
-localStorage.getItem("observationTotalTime");
-localStorage.getItem("observationData");
-
+<script type="text/javascript">
 var summaryPage = new SummaryController();
 </script>
-		
-		<!--<div id="libiza">
-			
-		</div>-->
-		
-		
-					
-				
-		
-    </body>
+</body>
 </html>

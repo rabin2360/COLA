@@ -37,10 +37,15 @@ var SummaryController = (function()
 		cpAggressive = 0;
 		cpOutOfSeat = 0;
 	
-		previousPageName = "index.html";
+		previousPageName = "observation.html";
 		
 		observationData = localStorage.getItem("observationData");
-		observationDataParser(observationData);
+
+		if(observationData)
+		{
+			observationDataParser(observationData);	
+		}
+		
 		getCPTotalObservation();
 		getTSTotalObservation();
 		printValues();
@@ -59,14 +64,23 @@ var SummaryController = (function()
 	
 	function observationSummaryInfo()
 	{
-		document.getElementById("totalObservedIntervals").innerHTML = getTSTotalObservation();
-		document.getElementById("observationDate").innerHTML = dateParser(localStorage.getItem("observationStartTime"));
-		document.getElementById("startTime").innerHTML = timeParser(localStorage.getItem("observationStartTime"));
-		document.getElementById("endTime").innerHTML = timeParser(localStorage.getItem("observationEndTime"));
 		
-		//add more summary info here
+		document.getElementById("summaryForm").elements[0].value= localStorage.getItem("studentName");
+		document.getElementById("summaryForm").elements[1].value= localStorage.getItem("observationStartTime");
+		document.getElementById("summaryForm").elements[2].value= localStorage.getItem("currClass");
+		document.getElementById("summaryForm").elements[3].value= localStorage.getItem("teacherName");
+		document.getElementById("summaryForm").elements[4].value= localStorage.getItem("observerName");
+		
 	}
 	
+	SummaryController.prototype.saveEditedInfo = function()
+	{
+		localStorage.setItem("studentName", document.getElementById("summaryForm").elements[0].value);
+		localStorage.setItem("observationStartTime", document.getElementById("summaryForm").elements[1].value);
+		localStorage.setItem("currClass",document.getElementById("summaryForm").elements[2].value );
+		localStorage.setItem("teacherName",document.getElementById("summaryForm").elements[3].value);
+		localStorage.setItem("observerName", document.getElementById("summaryForm").elements[4].value);
+	}
 	
 	function observationDataParser(data)
 	{
