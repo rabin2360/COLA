@@ -29,13 +29,13 @@ var DatabaseController = (function() {
     }
     
     function saveStudentInfoFields(tx) {
-        var studentID = (localStorage.getItem('studentID') != 'null' ? localStorage.getItem('studentID') : null); 
-        var studentName = (localStorage.getItem('studentName') != 'null' ? localStorage.getItem('studentName') : null);
-        var dateOfBirth = (localStorage.getItem('dateOfBirth') != 'null' ? localStorage.getItem('dateOfBirth') : null);
-        var consentDate = (localStorage.getItem('consentDate') != 'null' ? localStorage.getItem('consentDate') : null);
-        var ethnicity = (localStorage.getItem('ethnicity') != 'null' ? localStorage.getItem('ethnicity') : null);
-        var primaryLanguage = (localStorage.getItem('primaryLanguage') != 'null' ? localStorage.getItem('primaryLanguage') : null);
-        var gradeLevel = (localStorage.getItem('gradeLevel') != 'null' ? localStorage.getItem('gradeLevel') : null);
+        var studentID = (localStorage.getItem('studentID') != '' ? localStorage.getItem('studentID') : null); 
+        var studentName = (localStorage.getItem('studentName') != '' ? localStorage.getItem('studentName') : null);
+        var dateOfBirth = (localStorage.getItem('dateOfBirth') != '' ? localStorage.getItem('dateOfBirth') : null);
+        var consentDate = (localStorage.getItem('consentDate') != '' ? localStorage.getItem('consentDate') : null);
+        var ethnicity = (localStorage.getItem('ethnicity') != '' ? localStorage.getItem('ethnicity') : null);
+        var primaryLanguage = (localStorage.getItem('primaryLanguage') != '' ? localStorage.getItem('primaryLanguage') : null);
+        var gradeLevel = (localStorage.getItem('gradeLevel') != '' ? localStorage.getItem('gradeLevel') : null);
         
         //create tables if they don't exist
         //TODO: MAKE STUDENTNAME, DOB, CONSENTDATE, AND ETHNICITY NOT NULL
@@ -166,7 +166,6 @@ var DatabaseController = (function() {
 
     function retrieveStudentInfoFields(tx) {
         //can't pass studentID as a parameter
-        //studentID = ((document.getElementById('siID').value != '') ? document.getElementById('siID').value : null);
         studentID = localStorage.getItem('studentID')
         tx.executeSql('SELECT * FROM StudentInfo WHERE StudentId=?', [studentID], setStudentInfoFields, errorDB);
     }

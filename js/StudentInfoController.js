@@ -101,6 +101,18 @@ var StudentInfoController = (function() {
         localStorage.setItem("currClass", currClass);
         localStorage.setItem("observerName", observerName);
         localStorage.setItem("observerTitle", observerTitle);
+        
+        localStorage.setItem("studentID", document.getElementById('siID').value);
+        localStorage.setItem("studentName", document.getElementById('siStudentName').value);
+        localStorage.setItem("dateOfBirth", document.getElementById('siDOB').value);
+        localStorage.setItem("consentDate", document.getElementById('siConsentDate').value);
+        localStorage.setItem("ethnicity", document.getElementById('siEthnicity').value);
+        localStorage.setItem("primaryLanguage", document.getElementById('siPrimaryLanguage').value);
+        localStorage.setItem("gradeLevel", document.getElementById('siGradeLevel').value);
+        localStorage.setItem("teacherName", document.getElementById('siTeacherName').value);
+        localStorage.setItem("currClass", document.getElementById('siClass').value);
+        localStorage.setItem("observerName", document.getElementById('siObserverName').value);
+        localStorage.setItem("observerTitle", document.getElementById('siObserverTitle').value);
     }
 
     return StudentInfoController;
