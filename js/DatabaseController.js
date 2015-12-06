@@ -1,56 +1,43 @@
 var DatabaseController = (function() {
     var db;
+    var sessionId;
 
     function DatabaseController() {
         //initialize database
         db = window.openDatabase("colaDB", "1.0", "COLA database", 1000000);
     }
 
-    DatabaseController.prototype.saveStudentInfo = function(studentID, studentName, dateOfBirth, consentDate, ethnicity, 
+    DatabaseController.prototype.saveStudentInfo = function(sID, studentName, dateOfBirth, consentDate, ethnicity, 
                                                             primaryLanguage, gradeLevel, teacherName, currClass, 
-                                                            observerName, observerTile) { 
+                                                            observerName, observerTitle) { 
         db.transaction(saveStudentInfoFields, errorDB, successDB);
     }
     
-    DatabaseController.prototype.retrieveStudentInfo = function(studentID) { 
+    DatabaseController.prototype.retrieveStudentInfo = function(sID) { 
         db.transaction(retrieveStudentInfoFields, errorDB, successDB);
     }
     
-    function errorDB(err) {
-        if (err.code == 6) {
-            //TODO: add popup message stating the required fields need to be filled out
-            console.log("Null field error");
-        }
-        console.log("Database error: " + err.message);
+    DatabaseController.prototype.saveSession = function() { 
+        db.transaction(createSession, errorDB, successDB);
+        db.transaction(saveObservationData, errorDB, successDB);
     }
     
-    function successDB() {
-        console.log("Database success");
+    DatabaseController.prototype.saveQuestionnaire = function() { 
+        db.transaction(saveQuestions, errorDB, successDB);
     }
-
-    function print_query(tx, results) {
-        console.log("DEMO table: " + results.rows.length + " rows found.");
-        for (var i = 0; i < results.rows.length; i++){
-            console.log("Row = " + i + " ID = " + results.rows.item(i).StudentId);
-        }
-    } 
-
+    
     function saveStudentInfoFields(tx) {
         //so ugly, but the default PhoneGap database doesn't allow you to pass in parameters to the database
         //transaction so I have to re-retrieve all the field data. I still went through the motions of passing the
         //parameters in to the saveStudentInfo function because that is how this should work, but they're not actually 
         //doing anything
-        var studentID = ((document.getElementById('siID').value != '') ? document.getElementById('siID').value : null);
-        var studentName = ((document.getElementById('siStudentName').value != '') ? document.getElementById('siStudentName').value : null);
-        var dateOfBirth = ((document.getElementById('siDOB').value != '') ? document.getElementById('siDOB').value : null);
-        var consentDate = ((document.getElementById('siConsentDate').value != '') ? document.getElementById('siConsentDate').value : null);
-        var ethnicity = ((document.getElementById('siEthnicity').value != '') ? document.getElementById('siEthnicity').value : null);
-        var primaryLanguage = ((document.getElementById('siPrimaryLanguage').value != '') ? document.getElementById('siPrimaryLanguage').value : null);
-        var gradeLevel = ((document.getElementById('siGradeLevel').value != '') ? document.getElementById('siGradeLevel').value : null);
-        var teacherName = ((document.getElementById('siTeacherName').value != '') ? document.getElementById('siTeacherName').value : null);
-        var currClass = ((document.getElementById('siClass').value != '') ? document.getElementById('siClass').value : null);
-        var observerName = ((document.getElementById('siObserverName').value != '') ? document.getElementById('siObserverName').value : null);
-        var observerTile = ((document.getElementById('siObserverTitle').value != '') ? document.getElementById('siObserverTitle').value : null);
+        var studentID = localStorage.getItem('studentID'); 
+        var studentName = localStorage.getItem('studentName');
+        var dateOfBirth = localStorage.getItem('dateOfBirth');
+        var consentDate = localStorage.getItem('consentDate');
+        var ethnicity = localStorage.getItem('ethnicity');
+        var primaryLanguage = localStorage.getItem('primaryLanguage');
+        var gradeLevel = localStorage.getItem('gradeLevel');
         
         //create tables if they don't exist
         //TODO: MAKE STUDENTNAME, DOB, CONSENTDATE, AND ETHNICITY NOT NULL
@@ -71,12 +58,118 @@ var DatabaseController = (function() {
                        [studentID, studentName, dateOfBirth, consentDate, ethnicity, primaryLanguage, gradeLevel]);
 
         //print table to console
-        tx.executeSql('SELECT * FROM StudentInfo', [], print_query, errorDB);
+        //tx.executeSql('SELECT * FROM StudentInfo', [], print_query, errorDB);
+    }
+
+    function createSession(tx) {
+        //create tables if they don't exist
+        //TODO: update dates to date type
+        tx.executeSql('CREATE TABLE IF NOT EXISTS Sessions (\n' +
+                        'SessionId varchar(255) NOT NULL,\n' +
+                        'StudentId int NOT NULL,\n' +
+                        'TeacherName varchar(255),\n' + 
+                        'Class varchar(255),\n' + 
+                        'ObserverName varchar(255),\n' + 
+                        'ObserverTitle varchar(255),\n' + 
+                        'Duration int NOT NULL,\n' +
+                        'IntervalFreq int NOT NULL,\n' +
+                        'StartDateTime varchar(255) NOT NULL,\n' +
+                        'EndDateTime varchar(255) NOT NULL,\n' +
+                        'PRIMARY KEY (SessionId) )')
+        
+        var sessionID = new Date().getTime();
+        localStorage.setItem('sessionID', sessionID)
+        var studentID = localStorage.getItem("studentID");
+        var teacherName = localStorage.getItem("teacherName");
+        var currClass = localStorage.getItem("currClass");
+        var observerName = localStorage.getItem("observerName");
+        var observerTitle = localStorage.getItem("observerTitle");
+        var duration = localStorage.getItem("observationDuration");
+        var intervalFreq = localStorage.getItem("observationIntervalFreq");
+        var startDateTime = localStorage.getItem("observationStartTime");
+		var endDateTime = localStorage.getItem("observationEndTime");
+
+        tx.executeSql('INSERT INTO Sessions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+                      [sessionID, studentID, teacherName, currClass, observerName, observerTitle, duration, intervalFreq, 
+                       startDateTime, endDateTime]);
+        
+    }
+	
+    function saveObservationData(tx) {    
+        var dataArrayStr = localStorage.getItem("observationData");
+        console.log('dataArray = ' + dataArrayStr)
+        sessionID = localStorage.getItem('sessionID')
+        console.log('sessionId = ' + sessionID)
+        
+        tx.executeSql('CREATE TABLE IF NOT EXISTS Observations (\n' +
+                        'SessionId varchar(255) NOT NULL,\n' +
+                        'Interval int NOT NULL,\n' +
+                        'tsObserving int NOT NULL,\n' +
+                        'tsParticipating int NOT NULL,\n' +
+                        'tsDisengaged int NOT NULL,\n' +
+                        'tsVerbal int NOT NULL,\n' +
+                        'tsMotor int NOT NULL,\n' +
+                        'tsAggressive int NOT NULL,\n' +
+                        'tsOutOfSeat int NOT NULL,\n' +
+                        'cpObserving int NOT NULL,\n' +
+                        'cpParticipating int NOT NULL,\n' +
+                        'cpDisengaged int NOT NULL,\n' +
+                        'cpVerbal int NOT NULL,\n' +
+                        'cpMotor int NOT NULL,\n' +
+                        'cpAggressive int NOT NULL,\n' +
+                        'cpOutOfSeat int NOT NULL,\n' +
+                        'activityType varchar(255) NOT NULL)') 
+        //ts-observing,1,ts-participating,0,ts-disengaged,0,ts-verbal,0,ts-motor,0,ts-aggressive,0,ts-outOfSeat,0,
+        //cp-observing,0,cp-participating,1,cp-disengaged,0,cp-verbal,0,cp-motor,0,cp-aggressive,1,cp-outOfSeat,0,
+        //Whole-Class Instruction
+        dataArray = dataArrayStr.split(',');
+        i = 0;
+        interval = 1;
+        while (i < dataArray.length) {
+            tsObserving = dataArray[i+1];
+            tsParticipating = dataArray[i+3];
+            tsDisengaged = dataArray[i+5];
+            tsVerbal = dataArray[i+7];
+            tsMotor = dataArray[i+9];
+            tsAggressive = dataArray[i+11];
+            tsOutOfSeat = dataArray[i+13];
+            cpObserving = dataArray[i+15];
+            cpParticipating = dataArray[i+17];
+            cpDisengaged = dataArray[i+19];
+            cpVerbal = dataArray[i+21];
+            cpMotor = dataArray[i+23];
+            cpAggressive = dataArray[i+25];
+            cpOutOfSeat = dataArray[i+27];
+            activityType = dataArray[i+28];
+            tx.executeSql('INSERT INTO Observations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+                           [sessionID, interval, tsObserving, tsParticipating, tsDisengaged, tsVerbal, tsMotor, tsAggressive, tsOutOfSeat, 
+                            cpObserving, cpParticipating, cpDisengaged, cpVerbal, cpMotor, cpAggressive, cpOutOfSeat, activityType]);
+            i += 29;
+            interval++;
+        }
+    }
+    
+    function saveQuestions(tx) {
+        //create tables if they don't exist
+        //TODO: update dates to date type
+        tx.executeSql('CREATE TABLE IF NOT EXISTS Questions (\n' +
+                        'SessionId varchar(255) NOT NULL,\n' +
+                        'Question varchar(1000) NOT NULL,\n' + 
+                        'Answer varchar(1000) NOT NULL)')
+        
+        var sessionID = localStorage.getItem("sessionID");
+        var observerResponsesStr = localStorage.getItem("observerResponses");
+        var observerResponses = observerResponsesStr.split(',');
+
+        for (var i = 0; i < observerResponses.length; i += 2) {
+            tx.executeSql('INSERT INTO Questions VALUES (?, ?, ?)', [sessionID, observerResponses[i], observerResponses[i+1]]);
+        }
     }
 
     function retrieveStudentInfoFields(tx) {
         //can't pass studentID as a parameter
-        var studentID = document.getElementById('siID').value;
+        //studentID = ((document.getElementById('siID').value != '') ? document.getElementById('siID').value : null);
+        studentID = localStorage.getItem('studentID')
         tx.executeSql('SELECT * FROM StudentInfo WHERE StudentId=?', [studentID], setStudentInfoFields, errorDB);
     }
 
@@ -95,6 +188,26 @@ var DatabaseController = (function() {
             console.log('set fields')
         }
     }
+    
+    function errorDB(err) {
+        if (err.code == 6) {
+            //TODO: add popup message stating the required fields need to be filled out
+            console.log("Null field error");
+        }
+        console.log("Database error: " + err.message);
+    }
+    
+    function successDB() {
+        console.log("Database success");
+    }
+
+    function print_query(tx, results) {
+        console.log("table: " + results.rows.length + " rows found.");
+        for (var i = 0; i < results.rows.length; i++){
+            console.log("Row = " + i + " ID = " + results.rows.item(i).StudentId);
+            console.log("Row = " + i + " session ID = " + results.rows.item(i).SessionId);
+        }
+    } 
 
     return DatabaseController;
 
