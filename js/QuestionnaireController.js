@@ -163,7 +163,6 @@ function retrieveAnswers()
 	
 		if(observerResponses[i] =="")
 		{
-			console.log("here");
 			observerResponses[i] = formElementId.elements[i].textContent;
 		}
 		
