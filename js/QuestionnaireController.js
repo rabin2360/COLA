@@ -9,6 +9,8 @@ var nominalTSBehavior;
 var tsProductivity;
 
 var modalSaveButtonElementId;
+var dbController;
+var saveToDB;
 
 function QuestionnaireController()
 {
@@ -19,6 +21,9 @@ function QuestionnaireController()
 	//listener for the save button on the Questionnaire view page
 	saveResponsesElementId = document.getElementById("saveResponsesButton");
 	saveResponsesElementId.addEventListener("click", save);
+	
+	saveToDBElementId = document.getElementById("saveToDB");
+	saveToDBElementId.addEventListener("click", saveToDB);
 	
 	characterCounterQuestion1 = document.getElementById("question1");
 	characterCounterQuestion1.addEventListener("keydown", function(){characterCounter(characterCounterQuestion1)});
@@ -53,6 +58,7 @@ function QuestionnaireController()
 	//document.getElementById(characterCounterQuestion3.id+"Chars").innerHTML = characterCounter(characterCounterQuestion3);
 	//document.getElementById(characterCounterQuestion4.id+"Chars").innerHTML = characterCounter(characterCounterQuestion4);
 	
+	dbController = new DatabaseController();
 }
 
 function displayTextField2()
@@ -79,6 +85,12 @@ function displayQuestions()
 	document.querySelector(".remainingChars2").style.display ="none";
 	document.querySelector(".questionButton1").style.display ="inline";
 	document.querySelector(".questionButton2").style.display ="inline";
+}
+
+function saveToDB()
+{
+	dbController.saveSession();
+	dbController.saveQuestionnnaire();
 }
 
 function save()
@@ -117,7 +129,6 @@ QuestionnaireController.prototype.previousPage =function()
 	//save info before going to summary screen
 	saveTextValues();
 	retrieveAnswers();
-	console.log("here:");
 	window.location = "SummaryScreen.html";
 }
 
@@ -164,7 +175,9 @@ function retrieveAnswers()
 function convertStringToArray(key)
 {
 	var responsesString = localStorage.getItem(key);
+	if(responsesString !=null){
 	observerResponses = responsesString.split(',');
+	}
 }
 
 function characterCounter(elementId)
