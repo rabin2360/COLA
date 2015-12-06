@@ -86,6 +86,7 @@ var DatabaseController = (function() {
         var startDateTime = localStorage.getItem("observationStartTime");
 		var endDateTime = localStorage.getItem("observationEndTime");
 
+        tx.executeSql('DELETE FROM Sessions WHERE SessionId=?', [sessionID])
         tx.executeSql('INSERT INTO Sessions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
                       [sessionID, studentID, teacherName, currClass, observerName, observerTitle, duration, intervalFreq, 
                        startDateTime, endDateTime]);
