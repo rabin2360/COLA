@@ -4,13 +4,15 @@ var DatabaseController = (function() {
 
     function DatabaseController() {
         //initialize database
-        db = window.openDatabase("colaDB", "1.0", "COLA database", 1000000);
+        db = window.openDatabase("colaDB", "1.0", "COLA database", 10000000);
     }
 
-    DatabaseController.prototype.saveStudentInfo = function(sID, studentName, dateOfBirth, consentDate, ethnicity, 
-                                                            primaryLanguage, gradeLevel, teacherName, currClass, 
-                                                            observerName, observerTitle) { 
+    DatabaseController.prototype.saveStudentInfo = function() { 
         db.transaction(saveStudentInfoFields, errorDB, successDB);
+    }
+    
+    DatabaseController.prototype.saveStudentInfoAndNavigate = function() { 
+        db.transaction(saveStudentInfoFields, errorDB, successToObsPage);
     }
     
     DatabaseController.prototype.retrieveStudentInfo = function(sID) { 
@@ -27,17 +29,13 @@ var DatabaseController = (function() {
     }
     
     function saveStudentInfoFields(tx) {
-        //so ugly, but the default PhoneGap database doesn't allow you to pass in parameters to the database
-        //transaction so I have to re-retrieve all the field data. I still went through the motions of passing the
-        //parameters in to the saveStudentInfo function because that is how this should work, but they're not actually 
-        //doing anything
-        var studentID = localStorage.getItem('studentID'); 
-        var studentName = localStorage.getItem('studentName');
-        var dateOfBirth = localStorage.getItem('dateOfBirth');
-        var consentDate = localStorage.getItem('consentDate');
-        var ethnicity = localStorage.getItem('ethnicity');
-        var primaryLanguage = localStorage.getItem('primaryLanguage');
-        var gradeLevel = localStorage.getItem('gradeLevel');
+        var studentID = (localStorage.getItem('studentID') != '' ? localStorage.getItem('studentID') : null); 
+        var studentName = (localStorage.getItem('studentName') != '' ? localStorage.getItem('studentName') : null);
+        var dateOfBirth = (localStorage.getItem('dateOfBirth') != '' ? localStorage.getItem('dateOfBirth') : null);
+        var consentDate = (localStorage.getItem('consentDate') != '' ? localStorage.getItem('consentDate') : null);
+        var ethnicity = (localStorage.getItem('ethnicity') != '' ? localStorage.getItem('ethnicity') : null);
+        var primaryLanguage = (localStorage.getItem('primaryLanguage') != '' ? localStorage.getItem('primaryLanguage') : null);
+        var gradeLevel = (localStorage.getItem('gradeLevel') != '' ? localStorage.getItem('gradeLevel') : null);
         
         //create tables if they don't exist
         //TODO: MAKE STUDENTNAME, DOB, CONSENTDATE, AND ETHNICITY NOT NULL
@@ -77,8 +75,7 @@ var DatabaseController = (function() {
                         'EndDateTime varchar(255) NOT NULL,\n' +
                         'PRIMARY KEY (SessionId) )')
         
-        var sessionID = new Date().getTime();
-        localStorage.setItem('sessionID', sessionID)
+        var sessionID = localStorage.getItem('sessionID');		
         var studentID = localStorage.getItem("studentID");
         var teacherName = localStorage.getItem("teacherName");
         var currClass = localStorage.getItem("currClass");
@@ -168,14 +165,11 @@ var DatabaseController = (function() {
 
     function retrieveStudentInfoFields(tx) {
         //can't pass studentID as a parameter
-        //studentID = ((document.getElementById('siID').value != '') ? document.getElementById('siID').value : null);
         studentID = localStorage.getItem('studentID')
         tx.executeSql('SELECT * FROM StudentInfo WHERE StudentId=?', [studentID], setStudentInfoFields, errorDB);
     }
 
     function setStudentInfoFields(tx, results) {
-        //again, super ugly because the PhoneGap database doesn't allow me to return parameters in a db transaction.
-        //instead, I have to enter the data into the fields from here
         console.log('result rows = ' + results.rows.length);
         if (results.rows.length == 1) {
             document.getElementById('siID').value = results.rows.item(0).StudentId;
@@ -191,7 +185,7 @@ var DatabaseController = (function() {
     
     function errorDB(err) {
         if (err.code == 6) {
-            //TODO: add popup message stating the required fields need to be filled out
+            alert('Please enter in all the required fields before continuing.');
             console.log("Null field error");
         }
         console.log("Database error: " + err.message);
@@ -199,6 +193,11 @@ var DatabaseController = (function() {
     
     function successDB() {
         console.log("Database success");
+    }
+
+    function successToObsPage() {
+        console.log("Database success, navigating to obs page");
+	    window.location = "observation.html";
     }
 
     function print_query(tx, results) {
