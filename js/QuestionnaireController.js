@@ -5,12 +5,13 @@ var observerResponses;
 
 var saveResponsesElementId;
 var characterCounterQuestion1;
-var nominalTSBehavior;
-var tsProductivity;
+
+var text1DisplayButton;
+var text2DisplayButton;
+
 
 var modalSaveButtonElementId;
 var dbController;
-var saveToDB;
 
 function QuestionnaireController()
 {
@@ -22,31 +23,21 @@ function QuestionnaireController()
 	saveResponsesElementId = document.getElementById("saveResponsesButton");
 	saveResponsesElementId.addEventListener("click", save);
 	
-	saveToDBElementId = document.getElementById("saveToDB");
-	saveToDBElementId.addEventListener("click", saveToDB);
-	
 	characterCounterQuestion1 = document.getElementById("question1");
 	characterCounterQuestion1.addEventListener("keydown", function(){characterCounter(characterCounterQuestion1)});
-	
 	
 	characterCounterQuestion2 = document.getElementById("question2");
 	characterCounterQuestion2.addEventListener("keydown", function(){characterCounter(characterCounterQuestion2)});
 	
-	textDisplayButton = document.getElementById("question1Button");
-	textDisplayButton.addEventListener("click", displayTextField1);
+	text1DisplayButton = document.getElementById("question1Button");
+	text1DisplayButton.addEventListener("click", displayTextField1);
 	
-	textDisplayButton = document.getElementById("question2Button");
-	textDisplayButton.addEventListener("click", displayTextField2);
+	text2DisplayButton = document.getElementById("question2Button");
+	text2DisplayButton.addEventListener("click", displayTextField2);
 	
 	nominalTSBehavior = document.getElementById("nominalTSBehavior");
 	tsProductivity = document.getElementById("tsProductivity");
-	
-	/*characterCounterQuestion3 = document.getElementById("question3");
-	characterCounterQuestion3.addEventListener("keydown", function(){characterCounter(characterCounterQuestion3)});
-	
-	characterCounterQuestion4 = document.getElementById("question4");
-	characterCounterQuestion4.addEventListener("keydown", function(){characterCounter(characterCounterQuestion4)});
-	*/
+
 	//if any text is written, dump it in the text fields
 	convertStringToArray("observerResponses");
 	
@@ -55,8 +46,6 @@ function QuestionnaireController()
 	
 	document.getElementById(characterCounterQuestion1.id+"Chars").innerHTML = characterCounter(characterCounterQuestion1);
 	document.getElementById(characterCounterQuestion2.id+"Chars").innerHTML = characterCounter(characterCounterQuestion2);
-	//document.getElementById(characterCounterQuestion3.id+"Chars").innerHTML = characterCounter(characterCounterQuestion3);
-	//document.getElementById(characterCounterQuestion4.id+"Chars").innerHTML = characterCounter(characterCounterQuestion4);
 	
 	dbController = new DatabaseController();
 }
@@ -68,13 +57,12 @@ function displayTextField2()
 	document.querySelector(".questionButton2").style.display ="none";
 }
 
+
 function displayTextField1 ()
 {
 	document.querySelector(".textarea1").style.display ="inline";
 	document.querySelector(".remainingChars1").style.display ="inline";
 	document.querySelector(".questionButton1").style.display ="none";
-	
-	//textDisplayButton.style.display = "";
 }
 
 function displayQuestions()
@@ -89,6 +77,7 @@ function displayQuestions()
 
 function saveToDB()
 {
+	dbController.saveStudentInfo();
 	dbController.saveSession();
 	dbController.saveQuestionnaire();
 }
@@ -96,66 +85,51 @@ function saveToDB()
 function save()
 {
 	//save the text inputs from the field. They are optional
-	retrieveAnswers();
-	getNominalTSBehavior();
-	getTSProductivity();
-	displayQuestions();
-	//initiate the connection to the database and transfer the following info to the database
-	//-Student Info
-	//-Observation Info
-	//-Observer's Info
-	//-Observation Context
-	//-Optional Questionnaire inputs
-}
-
-function getNominalTSBehavior()
-{
-	var selectedNominalBehavior = nominalTSBehavior.options[nominalTSBehavior.selectedIndex].text;
-	localStorage.setItem("nominalTSBehavior", selectedNominalBehavior);
+	var userDecision = confirm("Save information to the database?");
 	
-	return selectedNominalBehavior;
-}
-
-function getTSProductivity()
-{
-	var selectedProductivityScale = tsProductivity.options[tsProductivity.selectedIndex].text;
-	localStorage.setItem("tsProductivity", selectedProductivityScale);
+	if(userDecision)
+	{	
+		saveToDB();
+	    window.location = "index.html";	
+	}
 	
-	return selectedProductivityScale;
 }
 
+//Before navigating to the previous page, the typed and selected values are loaded to localStorage
+//Then navigation happens
 QuestionnaireController.prototype.previousPage =function()
 {
-	//save info before going to summary screen
-	saveTextValues();
 	retrieveAnswers();
 	window.location = "SummaryScreen.html";
 }
 
+//the stringified observerResponses are written to the textarea fields. This makes it such that the user 
+//doesn't loose the semi-responses typed
 function writeTextValues()
 {
-	if(observerResponses[1] !="undefined")
+	if(observerResponses[1])
 	{
-		characterCounterQuestion1.value = observerResponses[1];//localStorage.getItem("question1");
-		console.log("value 1: "+observerResponses[1]);
+		characterCounterQuestion1.value = observerResponses[1];
 	}
 	
-	if(observerResponses[3] !="undefined")
+	if(observerResponses[3])
 	{
-		characterCounterQuestion2.value = observerResponses[3];//localStorage.getItem("question2");
-		console.log("value 2: "+observerResponses[3]);
-  
-	}	
-  //characterCounterQuestion3.value = localStorage.getItem("question3");
-}
+		characterCounterQuestion2.value = observerResponses[3];
+	}
+	
+	if(observerResponses[5])
+	{
+		tsProductivity.value = observerResponses[5];
+	
+	}
 
-function saveTextValues()
-{
-	//localStorage.setItem("question1",characterCounterQuestion1.value);
-	//localStorage.setItem("question2",characterCounterQuestion2.value);
-	//localStorage.setItem("question3",characterCounterQuestion3.value);
+	if(observerResponses[4])
+	{
+		nominalTSBehavior.value = observerResponses[4];
+	}
 	
 }
+
 
  //REMOVE THIS.
 QuestionnaireController.prototype.showArray = function()
@@ -163,6 +137,8 @@ QuestionnaireController.prototype.showArray = function()
 	return observerResponses;
 }
 
+//read the question, answers and the drop down menu selections from the questionnaire screen page
+//loads them to the localStorage
 function retrieveAnswers()
 {
 	var totalInputBoxes = formElementId.elements.length;
@@ -171,16 +147,20 @@ function retrieveAnswers()
 	{
 		observerResponses[i] = formElementId.elements[i].value;
 	
-		if(observerResponses[i] =="")
+		/*if(observerResponses[i] =="")
 		{
 			observerResponses[i] = formElementId.elements[i].textContent;
-		}
+		}*/
 		
 	}
+		//reading the questions 
+		observerResponses[0] = formElementId.elements[0].textContent;
+		observerResponses[2] = formElementId.elements[2].textContent;
 	
 	localStorage.setItem("observerResponses", observerResponses);
 }
 
+//convert the observerResponses to an array if not null
 function convertStringToArray(key)
 {
 	var responsesString = localStorage.getItem(key);
@@ -189,6 +169,7 @@ function convertStringToArray(key)
 	}
 }
 
+//counts the number of character in each text field
 function characterCounter(elementId)
 {
 	id = elementId.id;	
