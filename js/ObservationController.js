@@ -207,7 +207,7 @@ var ObservationController = (function() {
 		{	
 			saveCurrentStageData();
 			stopProcess();
-			navigateToAnotherPage();
+			setLocalStorage();
 			window.location = "SummaryScreen.html";
 		}
 		else
@@ -239,17 +239,19 @@ var ObservationController = (function() {
 		if(userDecision)
 		{   
 			stopProcess();
-			navigateToAnotherPage();
+			setLocalStorage();
 			window.location = "SummaryScreen.html";
 		}
 		
 	}
 	
-	function navigateToAnotherPage()
+	function setLocalStorage()
 	{
 		localStorage.setItem("observationData", dataArray);
 		localStorage.setItem("observationStartTime", systemClockSettings.getObservationStartTime());
 		localStorage.setItem("observationEndTime", systemClockSettings.getObservationStopTime());
+		localStorage.setItem("observationDuration", observationSettings.getTotalObservationTime()* SECONDS);
+		localStorage.setItem("observationIntervalFreq", observationSettings.getFrequency());
 	}
 	
 	ObservationController.prototype.traitButtonSelector = function(inputValue)
