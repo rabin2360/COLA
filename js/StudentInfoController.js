@@ -13,6 +13,8 @@ var StudentInfoController = (function() {
 
     var observerName;
     var observerTitle;
+    
+    var dbController;
 
     function StudentInfoController() {
     }
@@ -29,7 +31,7 @@ var StudentInfoController = (function() {
         
         retrieveButtonElementId = document.getElementById("siRetrieveButton");
         retrieveButtonElementId.addEventListener("click", this.retrieveStudentInfo);
-
+        
         dbController = new DatabaseController();
     }
     
@@ -40,38 +42,13 @@ var StudentInfoController = (function() {
     }
 
     StudentInfoController.prototype.save = function() {
-        studentID = ((document.getElementById('siID') != null) ? document.getElementById('siID').value : null);
-        studentName = ((document.getElementById('siStudentName') != null) ? document.getElementById('siStudentName').value : null);
-        dateOfBirth = ((document.getElementById('siDOB') != null) ? document.getElementById('siDOB').value : null);
-        consentDate = ((document.getElementById('siConsentDate') != null) ? document.getElementById('siConsentDate').value : null);
-        ethnicity = ((document.getElementById('siEthnicity') != null) ? document.getElementById('siEthnicity').value : null);
-        primaryLanguage = ((document.getElementById('siPrimaryLanguage') != null) ? document.getElementById('siPrimaryLanguage').value : null);
-        gradeLevel = ((document.getElementById('siGradeLevel') != null) ? document.getElementById('siGradeLevel').value : null);
-        teacherName = ((document.getElementById('siTeacherName') != null) ? document.getElementById('siTeacherName').value : null);
-        currClass = ((document.getElementById('siClass') != null) ? document.getElementById('siClass').value : null);
-        observerName = ((document.getElementById('siObserverName') != null) ? document.getElementById('siObserverName').value : null);
-        observerTitle = ((document.getElementById('siObserverTitle') != null) ? document.getElementById('siObserverTitle').value : null);
-        
-        console.log('studentID = ' + studentID);
-        
-        localStorage.setItem("studentID", studentID);
-        localStorage.setItem("studentName", studentName);
-        localStorage.setItem("dateOfBirth", dateOfBirth);
-        localStorage.setItem("consentDate", consentDate);
-        localStorage.setItem("ethnicity", ethnicity);
-        localStorage.setItem("primaryLanguage", primaryLanguage);
-        localStorage.setItem("gradeLevel", gradeLevel);
-        localStorage.setItem("teacherName", teacherName);
-        localStorage.setItem("currClass", currClass);
-        localStorage.setItem("observerName", observerName);
-        localStorage.setItem("observerTitle", observerTitle);
-
-        console.log('sid = ' + localStorage.getItem("studentID"));
-
-        dbController.saveStudentInfo(studentID, studentName, dateOfBirth, consentDate, ethnicity, primaryLanguage, gradeLevel,
-                                     teacherName, currClass, observerName, observerTitle);
-
-        console.log("SI save button pressed: " + studentID + "  " + studentName);
+        setLocalStorageFields();
+        dbController.saveStudentInfo();
+    }
+    
+    StudentInfoController.prototype.next = function() {
+        setLocalStorageFields();
+        dbController.saveStudentInfoAndNavigate(); 
     }
     
     StudentInfoController.prototype.clear = function() {
@@ -98,18 +75,35 @@ var StudentInfoController = (function() {
         currClass = null;       
         observerName = null;    
         observerTile = null;    
+    }
+    
+    function setLocalStorageFields() {
+        studentID = ((document.getElementById('siID').value != '') ? document.getElementById('siID').value : null);
+        studentName = ((document.getElementById('siStudentName').value != '') ? document.getElementById('siStudentName').value : null);
+        dateOfBirth = ((document.getElementById('siDOB').value != '') ? document.getElementById('siDOB').value : null);
+        consentDate = ((document.getElementById('siConsentDate').value != '') ? document.getElementById('siConsentDate').value : null);
+        ethnicity = ((document.getElementById('siEthnicity').value != '') ? document.getElementById('siEthnicity').value : null);
+        primaryLanguage = ((document.getElementById('siPrimaryLanguage').value != '') ? document.getElementById('siPrimaryLanguage').value : null);
+        gradeLevel = ((document.getElementById('siGradeLevel').value != '') ? document.getElementById('siGradeLevel').value : null);
+        teacherName = ((document.getElementById('siTeacherName').value != '') ? document.getElementById('siTeacherName').value : null);
+        currClass = ((document.getElementById('siClass').value != '') ? document.getElementById('siClass').value : null);
+        observerName = ((document.getElementById('siObserverName').value != '') ? document.getElementById('siObserverName').value : null);
+        observerTitle = ((document.getElementById('siObserverTitle').value != '') ? document.getElementById('siObserverTitle').value : null);
         
-        console.log("clear pressed: " + document.getElementById('siID').value);
+        localStorage.setItem("studentID", studentID);
+        localStorage.setItem("studentName", studentName);
+        localStorage.setItem("dateOfBirth", dateOfBirth);
+        localStorage.setItem("consentDate", consentDate);
+        localStorage.setItem("ethnicity", ethnicity);
+        localStorage.setItem("primaryLanguage", primaryLanguage);
+        localStorage.setItem("gradeLevel", gradeLevel);
+        localStorage.setItem("teacherName", teacherName);
+        localStorage.setItem("currClass", currClass);
+        localStorage.setItem("observerName", observerName);
+        localStorage.setItem("observerTitle", observerTitle);
     }
-    
-    StudentInfoController.prototype.next = function() {
-        studentInfoScreen.save();
-        console.log("NEXT");
-		window.location = "observation.html";
-    }
-    
+
     return StudentInfoController;
 
 }());
 
-//var studentInfoScreen = new StudentInfoController();

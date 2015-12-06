@@ -64,22 +64,24 @@ var SummaryController = (function()
 	
 	function observationSummaryInfo()
 	{
-		
 		document.getElementById("summaryForm").elements[0].value= localStorage.getItem("studentName");
 		document.getElementById("summaryForm").elements[1].value= localStorage.getItem("observationStartTime");
 		document.getElementById("summaryForm").elements[2].value= localStorage.getItem("currClass");
 		document.getElementById("summaryForm").elements[3].value= localStorage.getItem("teacherName");
 		document.getElementById("summaryForm").elements[4].value= localStorage.getItem("observerName");
-		
 	}
 	
 	SummaryController.prototype.saveEditedInfo = function()
 	{
-		localStorage.setItem("studentName", document.getElementById("summaryForm").elements[0].value);
-		localStorage.setItem("observationStartTime", document.getElementById("summaryForm").elements[1].value);
-		localStorage.setItem("currClass",document.getElementById("summaryForm").elements[2].value );
-		localStorage.setItem("teacherName",document.getElementById("summaryForm").elements[3].value);
-		localStorage.setItem("observerName", document.getElementById("summaryForm").elements[4].value);
+        if (document.getElementById("summaryForm").elements[0].value == '') {
+            alert('Please enter a student name to continue');
+        } else {
+            localStorage.setItem("studentName", document.getElementById("summaryForm").elements[0].value);
+            localStorage.setItem("observationStartTime", document.getElementById("summaryForm").elements[1].value);
+            localStorage.setItem("currClass",document.getElementById("summaryForm").elements[2].value );
+            localStorage.setItem("teacherName",document.getElementById("summaryForm").elements[3].value);
+            localStorage.setItem("observerName", document.getElementById("summaryForm").elements[4].value);
+        }
 	}
 	
 	function observationDataParser(data)
