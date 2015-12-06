@@ -90,7 +90,7 @@ function displayQuestions()
 function saveToDB()
 {
 	dbController.saveSession();
-	dbController.saveQuestionnnaire();
+	dbController.saveQuestionnaire();
 }
 
 function save()
@@ -134,8 +134,18 @@ QuestionnaireController.prototype.previousPage =function()
 
 function writeTextValues()
 {
-  characterCounterQuestion1.value = observerResponses[1];//localStorage.getItem("question1");
-  characterCounterQuestion2.value = observerResponses[3];//localStorage.getItem("question2");  
+	if(observerResponses[1] !="undefined")
+	{
+		characterCounterQuestion1.value = observerResponses[1];//localStorage.getItem("question1");
+		console.log("value 1: "+observerResponses[1]);
+	}
+	
+	if(observerResponses[3] !="undefined")
+	{
+		characterCounterQuestion2.value = observerResponses[3];//localStorage.getItem("question2");
+		console.log("value 2: "+observerResponses[3]);
+  
+	}	
   //characterCounterQuestion3.value = localStorage.getItem("question3");
 }
 
