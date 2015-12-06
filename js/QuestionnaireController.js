@@ -43,6 +43,8 @@ function QuestionnaireController()
 	characterCounterQuestion4.addEventListener("keydown", function(){characterCounter(characterCounterQuestion4)});
 	*/
 	//if any text is written, dump it in the text fields
+	convertStringToArray("observerResponses");
+	
 	writeTextValues();
 	retrieveAnswers();
 	
@@ -114,20 +116,22 @@ QuestionnaireController.prototype.previousPage =function()
 {
 	//save info before going to summary screen
 	saveTextValues();
+	retrieveAnswers();
+	console.log("here:");
 	window.location = "SummaryScreen.html";
 }
 
 function writeTextValues()
 {
-  characterCounterQuestion1.value = localStorage.getItem("question1");
-  characterCounterQuestion2.value = localStorage.getItem("question2");  
+  characterCounterQuestion1.value = observerResponses[1];//localStorage.getItem("question1");
+  characterCounterQuestion2.value = observerResponses[3];//localStorage.getItem("question2");  
   //characterCounterQuestion3.value = localStorage.getItem("question3");
 }
 
 function saveTextValues()
 {
-	localStorage.setItem("question1",characterCounterQuestion1.value);
-	localStorage.setItem("question2",characterCounterQuestion2.value);
+	//localStorage.setItem("question1",characterCounterQuestion1.value);
+	//localStorage.setItem("question2",characterCounterQuestion2.value);
 	//localStorage.setItem("question3",characterCounterQuestion3.value);
 	
 }
@@ -145,9 +149,22 @@ function retrieveAnswers()
 	for(var i = 0; i<totalInputBoxes; i++)
 	{
 		observerResponses[i] = formElementId.elements[i].value;
+	
+		if(observerResponses[i] =="")
+		{
+			console.log("here");
+			observerResponses[i] = formElementId.elements[i].textContent;
+		}
+		
 	}
 	
 	localStorage.setItem("observerResponses", observerResponses);
+}
+
+function convertStringToArray(key)
+{
+	var responsesString = localStorage.getItem(key);
+	observerResponses = responsesString.split(',');
 }
 
 function characterCounter(elementId)
