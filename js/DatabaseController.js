@@ -4,7 +4,7 @@ var DatabaseController = (function() {
 
     function DatabaseController() {
         //initialize database
-        db = window.openDatabase("colaDB", "1.0", "COLA database", 10000000);
+        db = window.openDatabase("colaDBa", "1.0", "COLA database", 10000000);
     }
 
     DatabaseController.prototype.saveStudentInfo = function() { 
