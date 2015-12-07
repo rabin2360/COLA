@@ -4,13 +4,13 @@ var SystemSettings = (function() {
     var pausedTimeStamps;
     var observationStartTime;
     var observationEndTime;
-
+	
     //initialize the variables 
     function SystemSettings() {
         observationStartTime = 0;
         observationEndTime = 0;
         pausedTimeStamps = [];
-    }
+	 }
 
     SystemSettings.prototype.recordObservationStartOrPauseTime = function() {
 
@@ -48,6 +48,7 @@ var SystemSettings = (function() {
         recordObservationStopTime();
 		return observationEndTime;
     }
-
+	
     return SystemSettings;
+	
 })();

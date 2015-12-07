@@ -51,11 +51,6 @@ var SummaryController = (function()
 		printValues();
 		observationSummaryInfo();	
 	}
-	
-	SummaryController.prototype.previousPage = function()
-	{
-		window.location = previousPageName;
-	}
 
 	SummaryController.prototype.nextPage = function()
 	{
