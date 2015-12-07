@@ -38,15 +38,14 @@ var DatabaseController = (function() {
         var gradeLevel = (localStorage.getItem('gradeLevel') != '' ? localStorage.getItem('gradeLevel') : null);
         
         //create tables if they don't exist
-        //TODO: MAKE STUDENTNAME, DOB, CONSENTDATE, AND ETHNICITY NOT NULL
         //TODO: update dates to date type
         tx.executeSql('CREATE TABLE IF NOT EXISTS StudentInfo (\n' +
                         'StudentId int NOT NULL,\n' +
-                        'StudentName varchar(255),\n' +
-                        'DOB varchar(255),\n' +
-                        'ConsentDate varchar(255),\n' +
-                        'Ethnicity varchar(255),\n' +
-                        'PrimaryLanguage varchar(255),\n' +
+                        'StudentName varchar(255) NOT NULL,\n' +
+                        'DOB varchar(255) NOT NULL,\n' +
+                        'ConsentDate varchar(255) NOT NULL,\n' +
+                        'Ethnicity varchar(255) NOT NULL,\n' +
+                        'PrimaryLanguage varchar(255) NOT NULL,\n' +
                         'GradeLevel int,\n' +
                         'PRIMARY KEY (StudentId) )')
 
