@@ -14,6 +14,8 @@ var ObservationController = (function() {
 	var cancelSettingsButtonElementId;
 	
     const SECONDS = 60;
+	const VISIBILE_BUTTON = 1;
+	const OPAQUE_BUTTON = 0.6;
 
 	var observationButtonsId;
 	var observationButtonsOpacity;
@@ -60,13 +62,13 @@ var ObservationController = (function() {
 		disableStopButton(true);
 		
 		observationButtonsOpacity = document.querySelectorAll(".traitButton label");
-		opacityObservationButtons(0.6);
+		opacityObservationButtons(OPAQUE_BUTTON);
 		
 		typeOfActivityButtonOpacity = document.querySelector(".typeOfActivity");
-		opacityTypeOfActivity(0.6);
+		opacityTypeOfActivity(OPAQUE_BUTTON);
 		
 		stopButtonOpacity = document.querySelector(".stopButton");
-		opacityStopButton(0.6);
+		opacityStopButton(OPAQUE_BUTTON);
 		
 		dataArray = [];
         
@@ -179,9 +181,9 @@ var ObservationController = (function() {
 		disableObservationButtons(false);
 		disableTypeOfActivity(false);
 		disableStopButton(true);
-		opacityStopButton(0.6);
-		opacityObservationButtons(1);
-		opacityTypeOfActivity(1);
+		opacityStopButton(OPAQUE_BUTTON);
+		opacityObservationButtons(VISIBILE_BUTTON);
+		opacityTypeOfActivity(VISIBILE_BUTTON);
         changeStartButtonUI("Pause", "#FFFF00");	
 	}
 	
@@ -194,9 +196,9 @@ var ObservationController = (function() {
 	    disableObservationButtons(true);
 		disableTypeOfActivity(true);
 		disableStopButton(false);
-		opacityStopButton(1);
-		opacityObservationButtons(0.6);
-		opacityTypeOfActivity(0.6);
+		opacityStopButton(VISIBILE_BUTTON);
+		opacityObservationButtons(OPAQUE_BUTTON);
+		opacityTypeOfActivity(OPAQUE_BUTTON);
 	}
 	
     function changeStartButtonUI(buttonText, buttonColor) {
@@ -230,8 +232,8 @@ var ObservationController = (function() {
         changeStartButtonUI("Start", "#00CC33");
 		disableObservationButtons(true);
 		disableTypeOfActivity(true);
-		opacityObservationButtons(0.6);
-		opacityTypeOfActivity(0.6);
+		opacityObservationButtons(OPAQUE_BUTTON);
+		opacityTypeOfActivity(OPAQUE_BUTTON);
 			
 	}
 	

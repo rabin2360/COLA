@@ -197,7 +197,7 @@ var DatabaseController = (function() {
 
     function successToObsPage() {
         console.log("Database success, navigating to obs page");
-	    window.location = "observation.html";
+	    window.location = "ObservationScreen.html";
     }
 
     function print_query(tx, results) {

@@ -9,12 +9,12 @@ var characterCounterQuestion1;
 var text1DisplayButton;
 var text2DisplayButton;
 
-
 var modalSaveButtonElementId;
 var dbController;
 
 function QuestionnaireController()
 {
+	//observer's responses saved in this data structure
 	observerResponses = [];
 	
 	formElementId = document.getElementById("questions");
@@ -41,12 +41,15 @@ function QuestionnaireController()
 	//if any text is written, dump it in the text fields
 	convertStringToArray("observerResponses");
 	
+	//everytime the page loads, if the required values are not null, they are written to the text fields from localStorage
+	//and then they are re-written into the observer's response datastructure
 	writeTextValues();
 	retrieveAnswers();
 	
 	document.getElementById(characterCounterQuestion1.id+"Chars").innerHTML = characterCounter(characterCounterQuestion1);
 	document.getElementById(characterCounterQuestion2.id+"Chars").innerHTML = characterCounter(characterCounterQuestion2);
 	
+	//instantiating the connection to the database
 	dbController = new DatabaseController();
 }
 
@@ -146,12 +149,6 @@ function retrieveAnswers()
 	for(var i = 0; i<totalInputBoxes; i++)
 	{
 		observerResponses[i] = formElementId.elements[i].value;
-	
-		/*if(observerResponses[i] =="")
-		{
-			observerResponses[i] = formElementId.elements[i].textContent;
-		}*/
-		
 	}
 		//reading the questions 
 		observerResponses[0] = formElementId.elements[0].textContent;
